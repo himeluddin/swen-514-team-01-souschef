@@ -4,8 +4,10 @@ import './css/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import LandingPageComponent from './ui-components/LandingPageComponent';
-import 'materialize-css/dist/css/materialize.min.css'; 
+import IngredientUploadComponet from './ui-components/IngredientUploadComponent';
+ 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
     <LandingPageComponent/>
