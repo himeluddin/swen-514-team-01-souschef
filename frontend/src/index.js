@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './css/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import LandingPageComponent from './ui-components/LandingPageComponent';
+import 'materialize-css/dist/css/materialize.min.css'; 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <LandingPageComponent/>
   </React.StrictMode>
 );
 
