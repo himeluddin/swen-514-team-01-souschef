@@ -5,13 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import LandingPageComponent from './components/LandingPageComponent';
 import IngredientUploadComponet from './components/IngredientUploadComponent';
+import CameraComponent from './components/CameraComponent';
 import { BrowserRouter } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-        <App/>
+        {/* <App/> */}
+        <CameraComponent/>
     </BrowserRouter>
   </React.StrictMode>
 );
