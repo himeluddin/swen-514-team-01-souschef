@@ -1,13 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
-
+import './css/App.css';
+import React, {Component} from 'react';
+import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
+import IngredientUploadComponent from './components/IngredientUploadComponent';
+import LandingPageComponent from './components/LandingPageComponent';
 function App() {
     return (
-        <div>
-            <h1 class="text-3xl font-bold underline">
-                Hello world!
-            </h1>
-        </div>
+
+        <Routes>
+        <Route exact path='/' element={<LandingPageComponent/>}/>
+        <Route exact path='/ingredientupload' element={<IngredientUploadComponent/>}/>
+        
+        </Routes>
 
     );
 }
