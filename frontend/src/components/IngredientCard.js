@@ -1,4 +1,3 @@
-import logo from '../imgs/logo_transparent.png';
 import apple from '../imgs/apple.jpg'
 import close from '../imgs/close.png'
 import '../css/CameraComponent.css'
