@@ -61,6 +61,11 @@ button:hover {
     background-position: 100%; 
 }
 
+.card-button {
+    bottom: 2px;
+    justify-content: right; 
+}
+
 canvas {
    width: 100%; 
    height: auto; 
