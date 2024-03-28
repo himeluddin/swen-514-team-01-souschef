@@ -5,7 +5,7 @@ import '../css/CameraComponent.css'
 function IngredientCard() {
     return (
         <div>
-            <div class="p-3 max-w-sm w-full lg:max-w-full lg:flex">
+            <div class="p-3 px-10 max-w-sm w-full lg:max-w-full lg:flex">
                 <div class="h-60 lg:h-auto lg:w-60 flex-none bg-cover rounded-tl rounded-bl text-center overflow-hidden" title="Woman holding a mug">
                     <img src={apple} alt="help"></img>
                 </div>
