@@ -5,10 +5,15 @@ import IngredientUploadComponent from './IngredientUploadComponent';
 import { useNavigate } from  'react-router-dom'; 
 import TestComponent from './TestComponent';
 
+export function generateSessionKey() {
+    return Math.random().toString(36).substring(2,9);
+}
 
 const LandingPageComponent = () => {
-    const navigate = useNavigate(); 
-    
+    const sessionKey = generateSessionKey(); 
+    console.log("session key not set yet: " + sessionKey);
+    sessionStorage.setItem("sessionKey", sessionKey); 
+    console.log('sessionKey after created:' +sessionStorage.getItem("sessionKey"));
     return (
 
         <div> 
@@ -36,41 +41,6 @@ const LandingPageComponent = () => {
 };
 
 export default LandingPageComponent; 
-// export default class LandingPageComponent extends Component {
-
-//     render (){
-        
-    
-//         return (
-        
-//         <header>
-//         <div class="container">
-//         <img class="center" src={logo}></img>
-//             <div class="caption left-align">
-//                 <h3>Welcome to Sous Chef!</h3>
-                
-//             </div>
-//             <div class="container">
-//                 <div class="center">
-//                 <Router> 
-//                 <Link to='/IngredientUpload'>
-//                 <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Default</button>
-//                 </Link>
-//                 <Routes>
-//                     <Route path="/IngredientUpload" element={<IngredientUploadComponent />} />
-//                 </Routes>
-//                 </Router>
-//             </div>
-//             </div>
-        
-//         </div>
-
-//         </header>
-    
-
-//         )
-//     }
-// }
 
 
 

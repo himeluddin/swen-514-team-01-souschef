@@ -11,13 +11,13 @@ function App() {
 
     ]
     return (
-        <RecipeView></RecipeView>
-        // <Recipe ingredient={ {ingredent_list: ["apple","orange"],instruction_list: ["to do 1","to do 2"]} }></Recipe>
-        // <Routes>
-        // <Route exact path='/' element={<LandingPageComponent/>}/>
-        // <Route exact path='/ingredientupload' element={<IngredientUploadComponent/>}/>
-        //
-        //  </Routes>
+
+        <Routes>
+        <Route exact path='/' element={<LandingPageComponent/>}/>
+        <Route exact path='/ingredientupload' element={<IngredientUploadComponent/>}/>
+        {/* delete the line after this one and replace this with the ingredients list component to fix routing */}
+        {/* <Route exact path='/ingredientlist' element={}/> */}
+        </Routes>
 
     );
 }

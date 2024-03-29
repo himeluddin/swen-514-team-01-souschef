@@ -8,11 +8,15 @@
 .CameraComponent {
     min-height: 100vh;
     position: relative;
-    background-color: #313131
 }
 
 .camera {
     position: relative;
+    width: 80%;
+    height: 40%;
+    margin-right: 50%;
+    margin-left: 8%;
+    padding-top: 30px;
 }
 
 .result {
@@ -24,7 +28,7 @@
     display: flex;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.9);
-    transition: 0.4s;
+    /* transition: 0.4s; */
 }
 
 .result.hasPhoto {
@@ -32,37 +36,41 @@
 }
 
 video {
-    width: 100%;
-    max-width: 100%;
+    width: 70%;
+    height: 70%;
+    max-width: 70%;
     height: auto;
+    margin-left: 15.8%; 
+
 
 }
+/* button {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    appearance: none;
+    border: none;
+    outline: none;
 
-/*button {*/
-/*    position: absolute;*/
-/*    bottom: 20px;*/
-/*    left: 20px;*/
-/*    appearance: none;*/
-/*    border: none;*/
-/*    outline: none;*/
+    width: 90px; 
+    height: 75px;
 
-/*    padding: 8px 16px;*/
-/*    background-image: linear-gradient(to right, #844FFF 50%, #FF4F84 50%);*/
-/*    background-position: 0%; */
-/*    background-size: 200%; */
-/*    color: #FFF; */
-/*    font-size: 24px; */
-/*    font-weight: 700;*/
-/*    transition: 0.4s; */
-/*    cursor: pointer; */
-/*}*/
+    padding: 8px 16px;
+    background-position: 0%; 
+    background-size: 100%; 
+    background-color: #ffff; 
+    
+    transition: 0.4s; 
+    cursor: pointer;
+} */
 
-button:hover {
+/* button:hover {
     background-position: 100%; 
-}
+} */
 
 canvas {
-   width: 100%; 
-   height: auto; 
+    width: auto;
+    height: auto;
     
+
 }
