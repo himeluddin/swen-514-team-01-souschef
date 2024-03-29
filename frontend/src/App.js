@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
 import IngredientUploadComponent from './components/IngredientUploadComponent';
 import LandingPageComponent from './components/LandingPageComponent';
-import DeleteMe from './components/DeleteMe';
+
 function App() {
 
     return (
