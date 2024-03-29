@@ -3,14 +3,21 @@ import React, {Component} from 'react';
 import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
 import IngredientUploadComponent from './components/IngredientUploadComponent';
 import LandingPageComponent from './components/LandingPageComponent';
-function App() {
-    return (
+import RecipeView from "./components/RecipeView";
+import Recipe from "./components/Recipe";
 
-        <Routes>
-        <Route exact path='/' element={<LandingPageComponent/>}/>
-        <Route exact path='/ingredientupload' element={<IngredientUploadComponent/>}/>
-        
-        </Routes>
+function App() {
+    const recipe = [
+
+    ]
+    return (
+        <RecipeView></RecipeView>
+        // <Recipe ingredient={ {ingredent_list: ["apple","orange"],instruction_list: ["to do 1","to do 2"]} }></Recipe>
+        // <Routes>
+        // <Route exact path='/' element={<LandingPageComponent/>}/>
+        // <Route exact path='/ingredientupload' element={<IngredientUploadComponent/>}/>
+        //
+        //  </Routes>
 
     );
 }
