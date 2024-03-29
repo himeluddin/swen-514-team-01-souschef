@@ -68,6 +68,11 @@ video {
     background-position: 100%; 
 } */
 
+.card-button {
+    bottom: 2px;
+    justify-content: right; 
+}
+
 canvas {
     width: auto;
     height: auto;
