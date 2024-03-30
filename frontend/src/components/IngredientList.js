@@ -8,6 +8,13 @@ import GenerateRecipeButton from "./GenerateRecipeButton";
 // replace this with when you pull from s3 bucket
 // get the ingredients from the s3 bucket using boto3
 // spin up a new card every it pulls from s3 buckets and sees new options
+ // (API PEOPLE)
+//****edit this***///
+//populate with recipes 
+const raw_data='';
+//****edit this***///
+
+
 const ingred = [
     {id: 1, title: "apple", url: apple},
     {id: 2, ingredient: "Apple2", ingredientUrl: "../imgs/apple.jpg"},
