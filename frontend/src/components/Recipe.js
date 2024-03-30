@@ -2,11 +2,18 @@ import React from "react";
 import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
 
 // this shows on the recipeInformation page
+//displays all the possible recipes
 function Recipe() {
     var back = "<";
 
     // this will be replaced with information from json 
-    const ingredient = {ingredent_list: ["apple","orange"],instruction_list: ["to do 1","to do 2"]} 
+
+    // (API PEOPLE)
+    //****edit this***///
+    //populate with recipes 
+    const raw_data='';
+    //****edit this***///
+    const ingredient = {ingredent_list: ["apple","orange"],instruction_list: ["to do 1","to do 2"]}
     return (
         <div className={"h-screen "}>
 
