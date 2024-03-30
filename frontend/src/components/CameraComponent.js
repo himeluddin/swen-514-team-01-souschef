@@ -86,6 +86,7 @@ function CameraComponent() {
         photo.width = widthPhoto;
         photo.height = heightPhoto;
         const filename = createFileName(); 
+        // fix this so that it actually takes the video (at the moment) and not of the rendered image 
         let ctx = photo.getContext('2d');
         ctx.drawImage(video, 0, 0, widthPhoto, heightPhoto); // displays current status of camera screen
         

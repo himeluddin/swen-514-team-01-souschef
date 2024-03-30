@@ -4,10 +4,10 @@ import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
 import IngredientUploadComponent from './components/IngredientUploadComponent';
 import LandingPageComponent from './components/LandingPageComponent';
 import RecipeView from "./components/RecipeView";
-import Recipe from "./components/Recipe";
 import IngredientCard from './components/IngredientCard';
 import IngredientListContainer from './components/IngredientListContainer';
 import IngredientList from './components/IngredientList'; 
+import Recipe from './components/Recipe'; 
 function App() {
     
     const recipes = [
@@ -22,6 +22,7 @@ function App() {
         {/* delete the line after this one and replace this with the ingredients list component to fix routing */}
         <Route exact path='/ingredientlist' element={<IngredientList/>}/>
         <Route exact path= '/recipes' element={<RecipeView/>}/>
+        <Route exact path= '/recipeInformation' element={<Recipe/>}/>
         </Routes>
 
     );
