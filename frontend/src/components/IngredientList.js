@@ -1,44 +1,53 @@
-import { useEffect, useState } from "react"; 
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; 
-import apple from '../imgs/apple.jpg'; 
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import apple from '../imgs/apple.jpg';
 import IngredientListContainer from "./IngredientListContainer";
-import NavBar from "./NavBar"; 
-import  AddButton from "./AddButton"; 
+import NavBar from "./NavBar";
+import AddButton from "./AddButton";
 import GenerateRecipeButton from "./GenerateRecipeButton";
-// replace this with when you pull from s3 bucket
-// get the ingredients from the s3 bucket using boto3
-// spin up a new card every it pulls from s3 buckets and sees new options
- // (API PEOPLE)
-//****edit this***///
-//populate with recipes 
-const raw_data='';
-//****edit this***///
+import { getContentWithPrefix } from './s3';
 
+//import { listObjs } from './s3';
 
-const ingred = [
-    {id: 1, title: "apple", url: apple},
-    {id: 2, ingredient: "Apple2", ingredientUrl: "../imgs/apple.jpg"},
-    {id: 3, ingredient: "Apple3", ingredientUrl: "../imgs/apple.jpg"}
-]
+const IngredientList = () => {
+     const [contentList, setContentList] = useState(null);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const sessionKey = sessionStorage.getItem('sessionKey');
+                const data = await getContentWithPrefix('post-souschef', sessionKey);
+                setContentList(data);
+                console.log(data); // this works
+                // Extracting the Label values
+                const labels = data.map(item => item.Label);
+                console.log(labels);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+        fetchData();
+    }, []);
+    // const sessionkey = sessionStorage.getItem('sessionKey');
+    // const params = {
+    //     Bucket:'post-souschef',
+    //     Prefix: sessionkey
+    // };
+    // const data = listObjs(params, sessionkey);
+    // console.log(data);
 
-function IngredientList(){
-    return(
-    // put nav bar up here
-    <div>
-        <NavBar pageTitle={"Ingredient List"}/>
-        <IngredientListContainer ingredients={ingred}/>
-        
-        <Link to={'/ingredientupload'}>
-            <AddButton/>
-        </Link>
-        <Link to={'/recipes'}>
-            <GenerateRecipeButton/>
-        </Link>
-        
-
-    </div>
+    return (
+        <div>
+            <NavBar pageTitle={"Ingredient List"}/>
+            <IngredientListContainer ingredients={contentList ? contentList : []}/>
+            <Link to={'/ingredientupload'}>
+                <AddButton/>
+            </Link>
+            <Link to={'/recipes'}>
+                <GenerateRecipeButton/>
+            </Link>
+        </div>
     );
 }
 
-export default IngredientList; 
+export default IngredientList;
