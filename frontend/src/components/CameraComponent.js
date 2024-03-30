@@ -98,6 +98,7 @@ function CameraComponent() {
          * confirm button is pressed
          */
         // Convert canvas to blob
+
         photo.toBlob(async function (blob) {
             try {
                 // Generate signed URL for uploading to S3
