@@ -5,10 +5,14 @@ import IngredientUploadComponent from './components/IngredientUploadComponent';
 import LandingPageComponent from './components/LandingPageComponent';
 import RecipeView from "./components/RecipeView";
 import Recipe from "./components/Recipe";
-
+import IngredientCard from './components/IngredientCard';
+import IngredientListContainer from './components/IngredientListContainer';
+import IngredientList from './components/IngredientList'; 
 function App() {
-    const recipe = [
-
+    
+    const recipes = [
+        { name: 'Apple Cobbler', percent: '50%' },
+        { name: 'Apple Cobbler', percent: '50%' }
     ]
     return (
 
@@ -16,7 +20,8 @@ function App() {
         <Route exact path='/' element={<LandingPageComponent/>}/>
         <Route exact path='/ingredientupload' element={<IngredientUploadComponent/>}/>
         {/* delete the line after this one and replace this with the ingredients list component to fix routing */}
-        {/* <Route exact path='/ingredientlist' element={}/> */}
+        <Route exact path='/ingredientlist' element={<IngredientList/>}/>
+        <Route exact path= '/recipes' element={<RecipeView/>}/>
         </Routes>
 
     );

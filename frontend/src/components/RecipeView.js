@@ -1,10 +1,19 @@
 import React from "react";
 import RecipeCard from "../util/RecipeCard";
 
-function RecipeView() {
-    var back = "<";
-    var forward = ">";
+{/* // put add button here 
+        Here we are passing the recipes that are gotten from api call 
+        parse it into an array list and then pass it to recipe
+        */}
 
+
+
+function RecipeView() {
+
+    var end_session = "x";
+    // api call be called when this page is rendered 
+    // HOW DO WE STORE THE JSON?  perhaps store it as a session storage? 
+    // need method to load in data from the json from api call 
     const recipes = [
         { name: 'Apple Cobbler', percent: '50%' },
         { name: 'Apple Cobbler', percent: '50%' }
@@ -17,15 +26,6 @@ function RecipeView() {
             <div className="w-full">
                 <div className="flex flex-col justify-center items-center py-7">
                     <div className="flex flex-row">
-                        <div className="flex-none items-center justify-center pr-40">
-                            <button
-                                className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                                <span
-                                    className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    {back}
-                                </span>
-                            </button>
-                        </div>
                         <div className="flex-grow items-center justify-center">
                             <h3 className="font-InterExtraLight text-4xl">Generated Recipes</h3>
                         </div>
@@ -34,7 +34,7 @@ function RecipeView() {
                                 className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
                                 <span
                                     className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    {forward}
+                                    {end_session}
                                 </span>
                             </button>
                         </div>
@@ -60,14 +60,6 @@ function RecipeView() {
 
             </div>
 
-            {/*<h4 class="text-2xl font-bold dark:text-black">Apple Pie</h4>*/}
-
-            {/*<hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"/>*/}
-
-
-            {/*<h1 className="text-3xl font-bold underline">*/}
-            {/*    Hello world!*/}
-            {/*</h1>*/}
         </div>
 
 
