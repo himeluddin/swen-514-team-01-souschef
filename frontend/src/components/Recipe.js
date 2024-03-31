@@ -7,8 +7,11 @@ import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
 //displays all the possible recipes
 function Recipe() {
     var back = "<";
-    console.log(localStorage.getItem("recipeList"))
-   
+    const val = localStorage.getItem("recipeList")
+
+    const val2 = JSON.parse(val)
+    console.log(val)
+
 
     const ingredient = {ingredent_list: ["apple","orange"],instruction_list: ["to do 1","to do 2"]}
     return (

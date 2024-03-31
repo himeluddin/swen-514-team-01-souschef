@@ -4,14 +4,15 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 import { BrowserRouter as Router, Route,Routes, Link, use} from 'react-router-dom';
 import IngredientList from "../components/IngredientList";
 
-function RecipeCard({recipe}) {
+function RecipeCard({recipe,index2}) {
+    localStorage.setItem("value",index2);
     return (
 
             <div
                 className="  grid grid-cols-2 shadow-md border-black border-2 place-items-center rounded-t w-1/2 h-full bg-white">
-                <div className={"font-InterExtraLight text-2xl font-bold"}>{recipe.name}</div>
+                <div className={"font-InterExtraLight text-2xl font-bold"}>{recipe.ingredients}</div>
                 <div className={"grid grid-row-2 place-items-center "}>
-                    <div>{recipe.percent}</div>
+                    <div>{index2}</div>
                     <div>ingredients missing</div>
                     <Link to= '/recipeInformation'> 
                         <button

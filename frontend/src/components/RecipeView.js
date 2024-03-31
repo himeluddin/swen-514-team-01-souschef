@@ -4,6 +4,7 @@ import { fetchRecipes } from './ApiGatewayService';
 
 function RecipeView() {
     const [recipes, setRecipes] = useState([]);
+    let number2 = 0
     useEffect(() => {
         async function fetchData() {
             try {
@@ -14,12 +15,12 @@ function RecipeView() {
                     // Extract the 'data' property from the response
                     const recipeExamples = recipeData.data;
                    
-                
+                    let num = 0
                     // Convert 'recipeExamples' into the desired format and set it as the state
                     const formattedRecipes = recipeExamples.map(recipe => ({
                         ingredients: recipe.ingredients,
                         direction: recipe.directions,
-                        name: recipe.title, // Assuming 'title' holds the name of the recipe
+                        name: recipe.title, // Assuming 'title' holds the name of the recip
                 }));
                     setRecipes(formattedRecipes);
                     const port1 = JSON.stringify(formattedRecipes)
@@ -35,13 +36,17 @@ function RecipeView() {
     }, []);
 
     return (
+
         <div className="h-screen">
             {/* Your existing JSX code */}
             {/* Recipe cards */}
             <div className="grid grid-cols-2 gap-4 p-4">
-                {recipes.map((recipe, index) => (
-                    <RecipeCard key={index} recipe={recipe} />
-                ))}
+
+                {recipes.map((recipe, index =0) => (
+
+                    <RecipeCard index2 = {index +=1} key={index } recipe={recipe} />
+
+                    ))}
             </div>
 
             {/* Generate Recipe button */}
