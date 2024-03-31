@@ -32,8 +32,26 @@ const ingred = [
 function IngredientList() {
 
     console.log("ingredients list pre call session id: ,", sessionStorage.getItem("sessionKey"))
-    getIngredients("post-souschef", sessionStorage.getItem("sessionKey"));
-    console.log("ingredients list post call session id: ,", sessionStorage.getItem("sessionKey"));
+    var arrlist = getIngredients("post-souschef", sessionStorage.getItem("sessionKey"));
+    console.log(arrlist);
+
+    arrlist.then(function (value) {
+
+        //console.log("Label of first object:", value["g5thc5q_0.jpg"].label);
+        //console.log(value); // Access the value contained within the Promise
+
+        for (const key in value) {
+            if (value.hasOwnProperty(key)) {
+                console.log("Key:", key);
+                console.log("Value:", value[key]);
+            }
+        }
+    }).catch(function (error) {
+        console.error(error); // Handle errors if the Promise is rejected
+    });
+
+
+
 
     return (
         // put nav bar up here
