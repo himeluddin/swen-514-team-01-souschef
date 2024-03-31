@@ -5,6 +5,13 @@ import IngredientListContainer from "./IngredientListContainer";
 import NavBar from "./NavBar"; 
 import  AddButton from "./AddButton"; 
 import GenerateRecipeButton from "./GenerateRecipeButton";
+import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
+import { getIngredients } from "./s3";
+const AWS = require('aws-sdk');
+
+const s3Client = new S3Client({region: "us-east-1"}); 
+
+
 // replace this with when you pull from s3 bucket
 // get the ingredients from the s3 bucket using boto3
 // spin up a new card every it pulls from s3 buckets and sees new options
@@ -23,6 +30,10 @@ const ingred = [
 
 
 function IngredientList(){
+    console.log("ingredients list pre call session id: ,", sessionStorage.getItem("sessionKey"))
+    getIngredients("post-souschef", sessionStorage.getItem("sessionKey"));
+    console.log("ingredients list post call session id: ,", sessionStorage.getItem("sessionKey"));
+
     return(
     // put nav bar up here
     <div>
@@ -35,10 +46,7 @@ function IngredientList(){
         <Link to={'/recipes'}>
             <GenerateRecipeButton/>
         </Link>
-        
-
     </div>
     );
 }
-
 export default IngredientList; 
