@@ -17,7 +17,7 @@ function parsedIngredients(ingredientList) {
     return processedUrl; // Return the processed URL string
 }
 
-async function fetchRecipes(ingredientList) {
+export async function fetchRecipes(ingredientList) {
     try {
         const apiUrlWithIngredients = parsedIngredients(ingredientList);
 
@@ -39,27 +39,27 @@ async function fetchRecipes(ingredientList) {
     }
 }
 
-async function testFetchRecipes() {
-    const ingredientList = ["chicken", "rice", "lemon"];
-    try {
-        const recipeData = await fetchRecipes(ingredientList);
-
-        recipes = recipeData.data;
-        recipes.forEach(recipe => {
-            console.log('Title:', recipe.title);
-            console.log('Ingredients:', recipe.ingredients);
-            console.log('Directions:', recipe.directions);
-            console.log('Link:', recipe.link);
-            console.log('NER:', recipe.ner);
-            console.log('Ingredient Score:', recipe.ingredient_score);
-            console.log('--------------------------------------');
-        });
-
-    } catch (error) {
-        console.error('Error testing fetchRecipes:', error);
-    }
-
-}
-
-// Call the testFetchRecipes function
-testFetchRecipes();
+// async function testFetchRecipes() {
+//     const ingredientList = ["chicken", "rice", "lemon"];
+//     try {
+//         const recipeData = await fetchRecipes(ingredientList);
+//
+//         recipes = recipeData.data;
+//         recipes.forEach(recipe => {
+//             console.log('Title:', recipe.title);
+//             console.log('Ingredients:', recipe.ingredients);
+//             console.log('Directions:', recipe.directions);
+//             console.log('Link:', recipe.link);
+//             console.log('NER:', recipe.ner);
+//             console.log('Ingredient Score:', recipe.ingredient_score);
+//             console.log('--------------------------------------');
+//         });
+//
+//     } catch (error) {
+//         console.error('Error testing fetchRecipes:', error);
+//     }
+//
+// }
+//
+// // Call the testFetchRecipes function
+// testFetchRecipes();

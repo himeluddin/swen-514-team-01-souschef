@@ -1,71 +1,55 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import RecipeCard from "../util/RecipeCard";
-
-{/* // put add button here 
-        Here we are passing the recipes that are gotten from api call 
-        parse it into an array list and then pass it to recipe
-        */}
-
-
+import { fetchRecipes } from './ApiGatewayService';
 
 function RecipeView() {
+    const [recipes, setRecipes] = useState([]);
 
-    var end_session = "x";
-    // api call be called when this page is rendered 
-    // HOW DO WE STORE THE JSON?  perhaps store it as a session storage? 
-    // need method to load in data from the json from api call 
-    const recipes = [
-        { name: 'Apple Cobbler', percent: '50%' },
-        { name: 'Apple Cobbler', percent: '50%' }
-    ]
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                // Fetch recipe data directly within the component
+                const recipeData = await fetchRecipes(["chicken", "rice", "lemon"]);
+                // Check if recipeData is not null and has the expected structure
+                if (recipeData && recipeData.data) {
+                    // Extract the 'data' property from the response
+                    const recipeExamples = recipeData.data;
+                    // Convert 'recipeExamples' into the desired format and set it as the state
+                    const formattedRecipes = recipeExamples.map(recipe => ({
+                        name: recipe.title, // Assuming 'title' holds the name of the recipe
+                        percent: '50%' // Example percent value
+                    }));
+                    setRecipes(formattedRecipes);
+                } else {
+                    throw new Error('Invalid recipe data format');
+                }
+            } catch (error) {
+                console.error('Error fetching recipes:', error);
+            }
+        }
+        fetchData();
+    }, []);
 
     return (
-        <div className={"h-screen "}>
-
-            {/*nav bar*/}
-            <div className="w-full">
-                <div className="flex flex-col justify-center items-center py-7">
-                    <div className="flex flex-row">
-                        <div className="flex-grow items-center justify-center">
-                            <h3 className="font-InterExtraLight text-4xl">Generated Recipes</h3>
-                        </div>
-                        <div className="flex-none items-center justify-center pl-40">
-                            <button
-                                className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                                <span
-                                    className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    {end_session}
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+        <div className="h-screen">
+            {/* Your existing JSX code */}
+            {/* Recipe cards */}
+            <div className="grid grid-cols-2 gap-4 p-4">
+                {recipes.map((recipe, index) => (
+                    <RecipeCard key={index} recipe={recipe} />
+                ))}
             </div>
 
-            {/*Generate All Recipe button*/}
-
-            {recipes.map((i) => <li className={"w-full h-1/4 flex items-center justify-center pt-3"}>
-                    <RecipeCard recipe={i}></RecipeCard>
-            </li>)}
-
-
-            {/*Generate Recipe button*/}
-            <div class=" w-full absolute bottom-0 flex items-center justify-center ">
-                <div class="w-1/2  flex items-center justify-center">
-                    <button
-                        className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+            {/* Generate Recipe button */}
+            <div className="w-full fixed bottom-0 flex items-center justify-center">
+                <div className="w-1/2 flex items-center justify-center">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                         Generate Recipes
                     </button>
                 </div>
-
             </div>
-
         </div>
-
-
     );
-
-
 }
 
 export default RecipeView;
