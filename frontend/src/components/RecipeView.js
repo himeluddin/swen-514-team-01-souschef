@@ -16,6 +16,7 @@ function RecipeView() {
     // need method to load in data from the json from api call 
     const recipes = [
         { name: 'Apple Cobbler', percent: '50%' },
+        { name: 'Apple Cobbler', percent: '50%' },
         { name: 'Apple Cobbler', percent: '50%' }
     ]
 
@@ -44,21 +45,21 @@ function RecipeView() {
 
             {/*Generate All Recipe button*/}
 
-            {recipes.map((i) => <li className={"w-full h-1/4 flex items-center justify-center pt-3"}>
-                    <RecipeCard recipe={i}></RecipeCard>
-            </li>)}
+            {recipes.map((recipe) => {
+                return(
+                    <RecipeCard recipe={recipe}/>
+                )
+            })}
 
 
             {/*Generate Recipe button*/}
-            <div class=" w-full absolute bottom-0 flex items-center justify-center ">
-                <div class="w-1/2  flex items-center justify-center">
-                    <button
-                        className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-                        Generate Recipes
-                    </button>
-                </div>
-
-            </div>
+            <div class="sticky p-3 px-10 bottom-0 bg-slate-300">
+                <button class="static justify-center inline-flex p-1 w-full overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                    <span class="static w-full h-12 px-5 py-2 text-2xl transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                        Generate More Recipes
+                    </span>
+                </button>
+            </div> 
 
         </div>
 
