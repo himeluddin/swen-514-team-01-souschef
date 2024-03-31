@@ -4,7 +4,6 @@ import { fetchRecipes } from './ApiGatewayService';
 
 function RecipeView() {
     const [recipes, setRecipes] = useState([]);
-
     useEffect(() => {
         async function fetchData() {
             try {
@@ -14,12 +13,17 @@ function RecipeView() {
                 if (recipeData && recipeData.data) {
                     // Extract the 'data' property from the response
                     const recipeExamples = recipeData.data;
+                   
+                
                     // Convert 'recipeExamples' into the desired format and set it as the state
                     const formattedRecipes = recipeExamples.map(recipe => ({
+                        ingredients: recipe.ingredients,
+                        direction: recipe.directions,
                         name: recipe.title, // Assuming 'title' holds the name of the recipe
-                        percent: '50%' // Example percent value
-                    }));
+                }));
                     setRecipes(formattedRecipes);
+                    const port1 = JSON.stringify(formattedRecipes)
+                    localStorage.setItem("recipeList",port1);
                 } else {
                     throw new Error('Invalid recipe data format');
                 }
