@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import IngredientCard from "./IngredientCard"
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 function IngredientListContainer({ ingredients }) {
     const [ingredientsList, setIngredientsList] = useState(ingredients);
 
@@ -12,18 +11,10 @@ function IngredientListContainer({ ingredients }) {
     //     ]);
     // }
 
-    const formattedIngredients = ingredientsList.map((ingredientInfo) => {
-        return (
-            <IngredientCard ingredientInfo={ingredientInfo} />
-        )
-    });
-
     return (
-
         <div>
-            {formattedIngredients}
+            {ingredientsList.map((ingredientInfo) => <IngredientCard ingredientInfo={ingredientInfo}/>)}
         </div>
-
     )
 
 }

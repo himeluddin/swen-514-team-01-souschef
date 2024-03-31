@@ -16,28 +16,24 @@ const raw_data='';
 
 
 const ingred = [
-    {id: 1, title: "apple", url: apple},
-    {id: 2, ingredient: "Apple2", ingredientUrl: "../imgs/apple.jpg"},
-    {id: 3, ingredient: "Apple3", ingredientUrl: "../imgs/apple.jpg"}
+    {id: 1, name: "Apple1", url: apple},
+    {id: 2, name: "Apple2", url: apple},
+    {id: 3, name: "Apple3", url: apple}
 ]
 
 
 function IngredientList(){
     return(
-    // put nav bar up here
-    <div>
-        <NavBar pageTitle={"Ingredient List"}/>
+    <>
+        <NavBar pageTitle={"Ingredient List"} showCloseButton={true}/>
         <IngredientListContainer ingredients={ingred}/>
-        
         <Link to={'/ingredientupload'}>
             <AddButton/>
         </Link>
         <Link to={'/recipes'}>
             <GenerateRecipeButton/>
         </Link>
-        
-
-    </div>
+    </>
     );
 }
 
