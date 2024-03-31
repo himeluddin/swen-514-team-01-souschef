@@ -1,16 +1,15 @@
 import React from "react";
+import NavBar from "./NavBar";
 import RecipeCard from "../util/RecipeCard";
 
-{/* // put add button here 
+/* // put add button here 
         Here we are passing the recipes that are gotten from api call 
         parse it into an array list and then pass it to recipe
-        */}
+        */
 
 
 
 function RecipeView() {
-
-    var end_session = "x";
     // api call be called when this page is rendered 
     // HOW DO WE STORE THE JSON?  perhaps store it as a session storage? 
     // need method to load in data from the json from api call 
@@ -21,36 +20,15 @@ function RecipeView() {
     ]
 
     return (
-        <div className={"h-screen "}>
-
-            {/*nav bar*/}
-            <div className="w-full">
-                <div className="flex flex-col justify-center items-center py-7">
-                    <div className="flex flex-row">
-                        <div className="flex-grow items-center justify-center">
-                            <h3 className="font-InterExtraLight text-4xl">Generated Recipes</h3>
-                        </div>
-                        <div className="flex-none items-center justify-center pl-40">
-                            <button
-                                className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                                <span
-                                    className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    {end_session}
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div className={"h-screen"}>
+            <NavBar pageTitle="Generated Recipes" showCloseButton={true}/>
 
             {/*Generate All Recipe button*/}
-
             {recipes.map((recipe) => {
                 return(
                     <RecipeCard recipe={recipe}/>
                 )
             })}
-
 
             {/*Generate Recipe button*/}
             <div class="sticky p-3 px-10 bottom-0 bg-slate-300">
@@ -60,13 +38,8 @@ function RecipeView() {
                     </span>
                 </button>
             </div> 
-
         </div>
-
-
     );
-
-
 }
 
 export default RecipeView;

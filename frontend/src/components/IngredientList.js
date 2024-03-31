@@ -24,20 +24,16 @@ const ingred = [
 
 function IngredientList(){
     return(
-    // put nav bar up here
-    <div>
-        <NavBar pageTitle={"Ingredient List"}/>
+    <>
+        <NavBar pageTitle={"Ingredient List"} showCloseButton={true}/>
         <IngredientListContainer ingredients={ingred}/>
-        
         <Link to={'/ingredientupload'}>
             <AddButton/>
         </Link>
         <Link to={'/recipes'}>
             <GenerateRecipeButton/>
         </Link>
-        
-
-    </div>
+    </>
     );
 }
 

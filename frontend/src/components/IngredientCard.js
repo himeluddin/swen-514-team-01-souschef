@@ -1,6 +1,6 @@
 import close from '../imgs/close.png'
 import '../css/CameraComponent.css'
-import { useRef, forwardRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { EditModal } from './EditModal';
 
 function IngredientCard({ ingredientInfo, removeCard }) {
