@@ -14,9 +14,9 @@ function RecipeView() {
     // HOW DO WE STORE THE JSON?  perhaps store it as a session storage? 
     // need method to load in data from the json from api call 
     const recipes = [
-        { name: 'Apple Cobbler', percent: '50%' },
-        { name: 'Apple Cobbler', percent: '50%' },
-        { name: 'Apple Cobbler', percent: '50%' }
+        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
+        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
+        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" }
     ]
 
     return (
