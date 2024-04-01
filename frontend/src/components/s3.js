@@ -1,6 +1,6 @@
 var bucketRegion = "us-east-1";
-const accessKeyId = "AKIA5FTZDMHU4AIXE3E5"
-const secretAccessKey = "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"
+const accessKeyId = "id"
+const secretAccessKey = "pass"
 
 const AWS = require('aws-sdk');
 
@@ -69,9 +69,9 @@ export async function getIngredients(bucketName, prefix) {
     };
 
     const data = await s3.listObjectsV2(params).promise();
-    console.log('Object retrieved successfully:');
+    //console.log('Object retrieved successfully:');
 
-    const ingredientsArrayList = {};
+    const ingredientsDict = {};
 
     for (const object of data.Contents) {
         const objectParams = {
@@ -82,9 +82,11 @@ export async function getIngredients(bucketName, prefix) {
         const tagData = await s3.getObjectTagging(objectParams).promise();
         const tagLabel = tagData.TagSet[0].Value;
 
-        ingredientsArrayList[object.Key] = { label: tagLabel };
+        ingredientsDict[object.Key] = { label: tagLabel };
     }
 
-    console.log("SessionKey from S3 function: " + sessionStorage.getItem("sessionKey"));
-    return ingredientsArrayList;
+    console.log("length of ingred dict s3: " + Object.keys(ingredientsDict).length);
+
+    //console.log("SessionKey from S3 function: " + sessionStorage.getItem("sessionKey"));
+    return ingredientsDict;
 }

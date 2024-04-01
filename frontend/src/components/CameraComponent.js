@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import '../css/CameraComponent.css';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { generateURL , getIngredients } from './s3';
+import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
 
 
 /*pre-processing bucket for Rekognition */
@@ -23,6 +24,39 @@ function createFileName() {
     return filename;
 }
 
+var ingred = []; 
+
+function getIngredientsS3() {
+    var ingredientsDict = getIngredients("post-souschef", sessionStorage.getItem("sessionKey"));
+
+    ingredientsDict.then(function (value) {
+        // https://post-souschef.s3.amazonaws.com/0n1ouhs_0.jpg
+        //console.log("Label of first object:", value["g5thc5q_0.jpg"].label);
+        //console.log(value); // Access the value contained within the Promise
+        var idCount = 0; 
+        console.log("length of ingred dict from after getIngredients:  " + value);
+
+        for (const key in value) {
+            if (value.hasOwnProperty(key)) {
+                // this link actually downloads the img so im not sure about that .. 
+                var img_link = "https://post-souschef.s3.amazonaws.com/" + key;
+                //console.log("img link: " + img_link);
+                var jsonForm = {
+                    id: idCount, 
+                    label: value[key].label, 
+                    image_url: img_link
+                };
+                
+                ingred.push(jsonForm); //.add(jsonForm);// push(jsonForm); 
+                console.log("Key:", key);
+                idCount++; 
+                //console.log("delete")
+            }
+        }
+    }).catch(function (error) {
+        console.error(error); // Handle errors if the Promise is rejected
+    });
+}
 
 function CameraComponent() {
     const videoRef = useRef(null);
@@ -103,7 +137,7 @@ function CameraComponent() {
                 // Generate signed URL for uploading to S3
                 const url = await generateURL(bucketName, filename);
 
-                // Upload photo to S3 using PUT request
+                // Upload p hoto to S3 using PUT request
                 await fetch(url, {
                     method: 'PUT',
                     body: blob,
@@ -116,8 +150,10 @@ function CameraComponent() {
             } catch (error) {
                 console.error('Error uploading photo to S3:', error);
             }
-        }, 'image/jpeg');
-        
+        }, 'image/jpeg'); 
+        getIngredientsS3();
+        await new Promise(r => setTimeout(r,2000));
+        getIngredientsS3(); 
     }
 
 
@@ -165,12 +201,12 @@ function CameraComponent() {
                             Save Photo
                         </span>
                         </button>
-                    {/* </Link> */}
+            
 
 
-                    <Link to={'/ingredientlist'}>
+                    <Link to={'/ingredientlist'} state={ingred}>
                     <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white
-                focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+                focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800" onClick={getIngredientsS3()}>
 
                     Next
                 </button>

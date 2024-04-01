@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import LandingPageComponent, { generateSessionKey } from './LandingPageComponent';
 
-
 const IngredientUploadComponent = () => {
     const webRef = useRef(null); 
     let img = null; 
@@ -13,6 +12,7 @@ const IngredientUploadComponent = () => {
     };
 
     console.log('sessionKey:' + sessionStorage.getItem("sessionKey"));
+
 
     var back = "<"; 
     var forward = ">";
