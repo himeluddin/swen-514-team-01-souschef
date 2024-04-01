@@ -10,10 +10,7 @@ import IngredientList from './components/IngredientList';
 import Recipe from './components/Recipe'; 
 function App() {
     
-    const recipes = [
-        { name: 'Apple Cobbler', percent: '50%' },
-        { name: 'Apple Cobbler', percent: '50%' }
-    ]
+
     return (
 
         <Routes>

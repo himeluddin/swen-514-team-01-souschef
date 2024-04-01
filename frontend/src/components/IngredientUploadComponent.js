@@ -12,13 +12,10 @@ const IngredientUploadComponent = () => {
     };
 
     //console.log('sessionKey:' + sessionStorage.getItem("sessionKey"));
-
-
-    var back = "<"; 
-    var forward = ">";
+    // backLink="/ingredientlist"
     return (
         <div>
-            <NavBar pageTitle="Ingredient Upload" showBackButton={true}/>
+            <NavBar pageTitle="Ingredient Upload" showBackButton={true}/> 
             <div class="flex flex-col justify-center items-center ps-px-12 pe-px-12">
                 <h3 className="font-InterExtraLight text-lg text-red-300" >Images should be non-blurry and display one ingredient</h3>
                 <CameraComponent/>
