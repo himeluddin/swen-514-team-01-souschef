@@ -8,12 +8,9 @@ import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
 function Recipe() {
     var back = "<";
     const val = localStorage.getItem("recipeList")
+    const index = localStorage.getItem("value")
+    const ingredient = JSON.parse(val)[Number(index-1)]
 
-    const val2 = JSON.parse(val)
-    console.log(val)
-
-
-    const ingredient = {ingredent_list: ["apple","orange"],instruction_list: ["to do 1","to do 2"]}
     return (
         <div className={"h-screen "}>
 
@@ -45,16 +42,16 @@ function Recipe() {
 
 
             <div className="  flex flex-col space-y-4  items-center w-full h-full ">
-                <div className={"w-1/2 h-1/4 shadow-md border-black border-2 pr-4"}>
+                <div className={" shadow-md border-black border-2 pr-4"}>
                     <div className="font-bold text-xl mb-2 pl-5">Ingredients</div>
                     <ul className="list-disc pl-12">
-                        {ingredient.ingredent_list.map((i) => <li>{i}</li>)}
+                        {ingredient.ingredients.map((i) => <li>{i}</li>)}
                         </ul>
                 </div>
-                <div className={"w-1/2 h-1/4 shadow-md border-black border-2 "}>
+                <div className={"shadow-md border-black border-2 "}>
                     <div className="font-bold text-xl mb-2 pl-5">Instructions</div>
                     <ul className="list-decimal pl-12">
-                        {ingredient.instruction_list.map((i) => <li>{i}</li>)}
+                        {ingredient.directions.map((i) => <li>{i}</li>)}
                     </ul>
                 </div>
 

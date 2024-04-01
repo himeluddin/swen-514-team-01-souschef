@@ -10,7 +10,7 @@ function RecipeCard({recipe,index2}) {
 
             <div
                 className="  grid grid-cols-2 shadow-md border-black border-2 place-items-center rounded-t w-1/2 h-full bg-white">
-                <div className={"font-InterExtraLight text-2xl font-bold"}>{recipe.ingredients}</div>
+                <div className={"font-InterExtraLight text-2xl font-bold"}>{recipe.title}</div>
                 <div className={"grid grid-row-2 place-items-center "}>
                     <div>{index2}</div>
                     <div>ingredients missing</div>

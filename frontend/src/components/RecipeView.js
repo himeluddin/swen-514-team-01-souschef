@@ -13,18 +13,9 @@ function RecipeView() {
                 // Check if recipeData is not null and has the expected structure
                 if (recipeData && recipeData.data) {
                     // Extract the 'data' property from the response
-                    const recipeExamples = recipeData.data;
-                   
-                    let num = 0
-                    // Convert 'recipeExamples' into the desired format and set it as the state
-                    const formattedRecipes = recipeExamples.map(recipe => ({
-                        ingredients: recipe.ingredients,
-                        direction: recipe.directions,
-                        name: recipe.title, // Assuming 'title' holds the name of the recip
-                }));
-                    setRecipes(formattedRecipes);
-                    const port1 = JSON.stringify(formattedRecipes)
-                    localStorage.setItem("recipeList",port1);
+
+                    setRecipes(recipeData.data);
+                    localStorage.setItem("recipeList",JSON.stringify(recipeData.data));
                 } else {
                     throw new Error('Invalid recipe data format');
                 }
