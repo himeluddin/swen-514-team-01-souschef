@@ -70,3 +70,32 @@ export async function generateURL(bucketName, keyName){
 
     return await s3.getSignedUrlPromise('putObject', params)
 }
+
+export async function getIngredients(bucketName, prefix) {
+    const params = {
+        Bucket: bucketName,
+        Prefix: prefix
+    };
+
+    const data = await s3.listObjectsV2(params).promise();
+    //console.log('Object retrieved successfully:');
+
+    const ingredientsDict = {};
+
+    for (const object of data.Contents) {
+        const objectParams = {
+            Bucket: bucketName,
+            Key: object.Key
+        };
+
+        const tagData = await s3.getObjectTagging(objectParams).promise();
+        const tagLabel = tagData.TagSet[0].Value;
+
+        ingredientsDict[object.Key] = { label: tagLabel };
+    }
+
+    console.log("length of ingred dict s3: " + Object.keys(ingredientsDict).length);
+
+    //console.log("SessionKey from S3 function: " + sessionStorage.getItem("sessionKey"));
+    return ingredientsDict;
+}
