@@ -2,21 +2,23 @@ import Webcam from "react-webcam";
 import React, { useRef, useState, useEffect } from 'react';
 import '../css/CameraComponent.css';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { generateURL , getIngredients } from './s3';
+
 
 /*pre-processing bucket for Rekognition */
 const AWS =require('aws-sdk');
-// const fs = require('fs'); 
-AWS.config.update({region: 'us-east-1'}); 
+// const fs = require('fs');
+AWS.config.update({region: 'us-east-1'});
 
-const s3 = new AWS.S3(); 
-const bucketName = 'pre-souschef'; 
+const s3 = new AWS.S3();
+const bucketName = 'pre-souschef';
 
 /* count for which number of image it is currently */
 let count = 0;
 
 /* creates file name and increments count every time a user "okays" an image */
 function createFileName() {
-    let filename = sessionStorage.getItem("sessionKey") + '-' + count + '.jpg';
+    let filename = sessionStorage.getItem("sessionKey") + '_' + count + '.jpg';
     count++;
     return filename;
 }
@@ -48,7 +50,7 @@ function CameraComponent() {
             })
     }
 
-    // shows the video on the screen if there is a change 
+    // shows the video on the screen if there is a change
     useEffect(() => {
         getVideo();
 
@@ -79,64 +81,50 @@ function CameraComponent() {
         setHasPhoto(false);
     }
 
-    const savePhoto = () => {
-
+    const savePhoto = async () => {
         let photo = photoRef.current;
         let video = videoRef.current;
         photo.width = widthPhoto;
         photo.height = heightPhoto;
-        const filename = createFileName(); 
+
+        const filename = createFileName();
         let ctx = photo.getContext('2d');
-        ctx.drawImage(video, 0, 0, widthPhoto, heightPhoto); // displays current status of camera screen
-        
-        photo.toBlob(function (blob) {
-            // Create a temporary link element
-            const link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = filename; 
+        ctx.drawImage(video, 0, 0, widthPhoto, heightPhoto);
+        /**
+         * @todo fix the image
+         * Description:
+         * Image that is showcased during preview isn't the image being saved in
+         * the s3. The image that is saved is whatever state the camera is when the
+         * confirm button is pressed
+         */
+        // Convert canvas to blob
+        photo.toBlob(async function (blob) {
+            try {
+                // Generate signed URL for uploading to S3
+                const url = await generateURL(bucketName, filename);
 
-            // Trigger a click event on the link to prompt download
-            link.click();
-        }, 'image/jpeg');
+                // Upload photo to S3 using PUT request
+                await fetch(url, {
+                    method: 'PUT',
+                    body: blob,
+                    headers: {
+                        'Content-Type': 'image/jpeg'
+                    }
+                });
 
-        
-        // putting image in s3 
-        s3.putObject({
-            Bucket: bucketName, 
-            Key: filename, 
-            Body: photo, // this might be wrong 
-        }, (err, data) => {
-            if(err) {
-                console.error("error uploading image: ", err); 
-                return; 
+                console.log('Photo uploaded successfully to S3.');
+            } catch (error) {
+                console.error('Error uploading photo to S3:', error);
             }
-            console.log("image upload success"); 
-
-            const tags = [
-                {Key: 'sessionKey', Value: sessionStorage.getItem("sessionKey")},
-                {Key: 'label', Value: filename}
-            ]; 
-
-            s3.putObjectTagging({
-                Bucket: bucketName, 
-                Key: filename, 
-                Tagging: {
-                    TagSet: tags
-                }
-            }, (err, data) => {
-                if (err) {
-                    console.error("Error adding tags to the object: ", err); 
-                    return; 
-                }
-                console.log("Tags added successfully");
-            });
-
-        });
-
+        }, 'image/jpeg');
+        
     }
+
+
+
     return (
         <div>
-        <div className="CameraComponent">
+            <div className="CameraComponent">
                 <div className="camera">
                     <video ref={videoRef}></video>
                 </div>
@@ -151,42 +139,47 @@ function CameraComponent() {
                         </button>
                     </div>
                 </div>
-        </div>
+            </div>
 
             <div class="flex flex-col">
 
 
-            <div className={"result " + (hasPhoto ? "hasPhoto" : "")}>
-            <div class="flex items-center justify-center pl-80">
-                <canvas ref={photoRef}></canvas>
-            </div>
-            <br/>
-                <div class="flex items-center justify-center pl-40">
+                <div className={"result " + (hasPhoto ? "hasPhoto" : "")}>
+                    <div class="flex items-center justify-center pl-80">
+                        <canvas ref={photoRef}></canvas>
+                    </div>
+                    <br/>
+                    <div class="flex items-center justify-center pl-40">
                         <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white 
                         focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800" onClick={closePhoto}>
                             <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                 Retake
                             </span>
                         </button>
-                </div>
-                
+                    </div>
 
 
-                <Link to={'/ingredientlist'}>
-                    <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white 
+                        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white
                 focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800" onClick={savePhoto}>
                         <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                            Next
+                            Save Photo
                         </span>
-                    </button>
+                        </button>
+                    {/* </Link> */}
+
+
+                    <Link to={'/ingredientlist'}>
+                    <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white
+                focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+
+                    Next
+                </button>
                 </Link>
 
-            
+                </div>
+            </div>
+        </div>
 
-            </div>
-            </div>
-            </div>
-        
     );
 }
 export default CameraComponent; 

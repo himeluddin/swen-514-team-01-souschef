@@ -1,8 +1,9 @@
 import React, { Component, useRef } from 'react';
-import CameraComponent from './CameraComponent';
+import CameraComponent from './CameraComponent'
+import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
+import Webcam from 'react-webcam';
+import LandingPageComponent, { generateSessionKey } from './LandingPageComponent';
 import NavBar from './NavBar';
-
-
 const IngredientUploadComponent = () => {
     const webRef = useRef(null); 
     let img = null; 
@@ -10,6 +11,11 @@ const IngredientUploadComponent = () => {
         img =webRef.current.getScreenshot();
     };
 
+    //console.log('sessionKey:' + sessionStorage.getItem("sessionKey"));
+
+
+    var back = "<"; 
+    var forward = ">";
     return (
         <div>
             <NavBar pageTitle="Ingredient Upload" showBackButton={true}/>

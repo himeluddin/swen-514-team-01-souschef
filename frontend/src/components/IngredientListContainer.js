@@ -1,20 +1,30 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import IngredientCard from "./IngredientCard"
-function IngredientListContainer({ ingredients }) {
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+function IngredientListContainer({ ingredients = [] }) {     
     const [ingredientsList, setIngredientsList] = useState(ingredients);
 
-    // const addCard = () => {
-    //     setIngredientsList([
-    //         {ingredient: "Apple", ingredientUrl: "../imgs/apple.jpg"},
-    //         {ingredient: "Apple2", ingredientUrl: "../imgs/apple.jpg"},
-    //         {ingredient: "Apple3", ingredientUrl: "../imgs/apple.jpg"}
-    //     ]);
-    // }
+    const uniqueIngredients = [];
+
+    ingredientsList.forEach((ingredient) => {
+        if (!uniqueIngredients.find((uniqueIngredient) => uniqueIngredient.id === ingredient.id)) {
+            uniqueIngredients.push(ingredient);
+        }
+    })
+
+    
+    const formattedIngredients = uniqueIngredients.map((ingredientInfo) => {
+        return (
+            <IngredientCard ingredientInfo={ingredientInfo}/>
+        )
+    });
 
     return (
+
         <div>
-            {ingredientsList.map((ingredientInfo) => <IngredientCard ingredientInfo={ingredientInfo}/>)}
+            {formattedIngredients}
         </div>
+
     )
 
 }
