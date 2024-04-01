@@ -9,6 +9,8 @@ import IngredientListContainer from './components/IngredientListContainer';
 import IngredientList from './components/IngredientList'; 
 import Recipe from './components/Recipe'; 
 function App() {
+    
+
     return (
 
         <Routes>
@@ -17,7 +19,7 @@ function App() {
         {/* delete the line after this one and replace this with the ingredients list component to fix routing */}
         <Route exact path='/ingredientlist' element={<IngredientList/>}/>
         <Route exact path= '/recipes' element={<RecipeView/>}/>
-        <Route exact path= '/recipeInformation' element={<Recipe/>}/>
+        <Route exact path= '/recipeInformation/:recipeName' element={<Recipe/>}/>
         </Routes>
 
     );

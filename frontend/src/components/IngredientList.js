@@ -1,53 +1,47 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import apple from '../imgs/apple.jpg';
 import IngredientListContainer from "./IngredientListContainer";
 import NavBar from "./NavBar";
 import AddButton from "./AddButton";
 import GenerateRecipeButton from "./GenerateRecipeButton";
-import { getContentWithPrefix } from './s3';
 
-//import { listObjs } from './s3';
+import { useLocation } from "react-router-dom";
 
-const IngredientList = () => {
-     const [contentList, setContentList] = useState(null);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const sessionKey = sessionStorage.getItem('sessionKey');
-                const data = await getContentWithPrefix('post-souschef', sessionKey);
-                setContentList(data);
-                console.log(data); // this works
-                // Extracting the Label values
-                const labels = data.map(item => item.Label);
-                console.log(labels);
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-        fetchData();
-    }, []);
-    // const sessionkey = sessionStorage.getItem('sessionKey');
-    // const params = {
-    //     Bucket:'post-souschef',
-    //     Prefix: sessionkey
-    // };
-    // const data = listObjs(params, sessionkey);
-    // console.log(data);
+function formatLabels(rawIngredients){
+    const uniqueIngredients = [];
 
+    rawIngredients.forEach((ingredient) => {
+        if (!uniqueIngredients.find((uniqueIngredient) => uniqueIngredient.id === ingredient.id)) {
+            uniqueIngredients.push(ingredient);
+        }
+    })
+    //console.log("unique ingred:" + uniqueIngredients);
+    return uniqueIngredients;
+    
+}
+
+function IngredientList() {
+
+    const location = useLocation(); 
+    const ingred = location.state;
+
+    
+    var formattedIngred = formatLabels(ingred); 
+    //console.log(formattedIngred);
+    
     return (
         <div>
-            <NavBar pageTitle={"Ingredient List"}/>
-            <IngredientListContainer ingredients={contentList ? contentList : []}/>
+            <NavBar pageTitle={"Ingredient List"} />
+            <IngredientListContainer ingredients={ingred}/>
             <Link to={'/ingredientupload'}>
-                <AddButton/>
+                <AddButton />
             </Link>
-            <Link to={'/recipes'}>
-                <GenerateRecipeButton/>
+
+            <Link to={'/recipes'} state={formattedIngred}>
+                <GenerateRecipeButton />
             </Link>
         </div>
     );
 }
-
-export default IngredientList;
+export default IngredientList; 
