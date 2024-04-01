@@ -1,9 +1,10 @@
 /*
 This is where the recipe cards will be shown 
 */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
 import RecipeCard from "../util/RecipeCard";
+import { fetchRecipes } from './ApiGatewayService';
 import { useLocation } from "react-router-dom";
 
 function RecipeView() {
@@ -11,30 +12,31 @@ function RecipeView() {
     const location = useLocation(); 
     const ingredLabels = location.state; 
     console.log("ingred labels recipie view: " + ingredLabels);
-    
-    var end_session = "x";
-    // api call be called when this page is rendered 
-    // HOW DO WE STORE THE JSON?  perhaps store it as a session storage? 
-    // need method to load in data from the json from api call 
-    const recipes = [
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" },
-        { name: 'Apple Cobbler', percent: '50%', link: "https://www.yummly.com/recipe/Apple-Cobbler-9100948?prm-v1" }
-    ]
-    
+
+    const [recipes, setRecipes] = useState([]);
     const [numRecipes, setNumRecipes] = useState(3);
+
+    let number2 = 0
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                // Fetch recipe data directly within the component
+                const recipeData = await fetchRecipes(ingredLabels);
+                // Check if recipeData is not null and has the expected structure
+                if (recipeData && recipeData.data) {
+                    // Extract the 'data' property from the response
+
+                    setRecipes(recipeData.data);
+                    localStorage.setItem("recipeList",JSON.stringify(recipeData.data));
+                } else {
+                    throw new Error('Invalid recipe data format');
+                }
+            } catch (error) {
+                console.error('Error fetching recipes:', error);
+            }
+        }
+        fetchData();
+    }, []);
 
     const generateRecipes = () => {
         if (numRecipes < 12) {
@@ -44,7 +46,6 @@ function RecipeView() {
 
     const renderCards = () => {
         const renderRecipes = recipes.slice(0, numRecipes);
-
         return renderRecipes.map((recipe) => {
             return(
                 <RecipeCard recipe={recipe}/>
