@@ -1,15 +1,16 @@
+/*
+This is where the recipe cards will be shown 
+*/
 import React from "react";
 import RecipeCard from "../util/RecipeCard";
-
-{/* // put add button here 
-        Here we are passing the recipes that are gotten from api call 
-        parse it into an array list and then pass it to recipe
-        */}
-
-
+import { useLocation } from "react-router-dom";
 
 function RecipeView() {
-
+    // you still need to do element.label to get the actual label ... otherwise the sorting stuff dont work to get the non copies 
+    const location = useLocation(); 
+    const ingredLabels = location.state; 
+    console.log("ingred labels recipie view: " + ingredLabels);
+    
     var end_session = "x";
     // api call be called when this page is rendered 
     // HOW DO WE STORE THE JSON?  perhaps store it as a session storage? 

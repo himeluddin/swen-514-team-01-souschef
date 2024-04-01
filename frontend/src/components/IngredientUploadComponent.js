@@ -11,7 +11,7 @@ const IngredientUploadComponent = () => {
         img =webRef.current.getScreenshot();
     };
 
-    console.log('sessionKey:' + sessionStorage.getItem("sessionKey"));
+    //console.log('sessionKey:' + sessionStorage.getItem("sessionKey"));
 
 
     var back = "<"; 

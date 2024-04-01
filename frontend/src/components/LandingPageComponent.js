@@ -1,9 +1,7 @@
 import logo from '../imgs/logo_transparent.png';
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
-import IngredientUploadComponent from './IngredientUploadComponent';
-import { useNavigate } from  'react-router-dom'; 
-import TestComponent from './TestComponent';
+
 
 export function generateSessionKey() {
     return Math.random().toString(36).substring(2,9);
@@ -11,9 +9,7 @@ export function generateSessionKey() {
 
 const LandingPageComponent = () => {
     const sessionKey = generateSessionKey(); 
-    console.log("session key not set yet: " + sessionKey);
     sessionStorage.setItem("sessionKey", sessionKey); 
-    console.log('sessionKey after created:' +sessionStorage.getItem("sessionKey"));
     return (
 
         <div> 

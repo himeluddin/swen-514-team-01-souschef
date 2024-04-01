@@ -30,27 +30,22 @@ function getIngredientsS3() {
     var ingredientsDict = getIngredients("post-souschef", sessionStorage.getItem("sessionKey"));
 
     ingredientsDict.then(function (value) {
-        // https://post-souschef.s3.amazonaws.com/0n1ouhs_0.jpg
-        //console.log("Label of first object:", value["g5thc5q_0.jpg"].label);
-        //console.log(value); // Access the value contained within the Promise
+    
         var idCount = 0; 
-        console.log("length of ingred dict from after getIngredients:  " + value);
 
+        // adds ingredients pulled from s3 to a formatted list to be sent to ingredient list
         for (const key in value) {
             if (value.hasOwnProperty(key)) {
-                // this link actually downloads the img so im not sure about that .. 
                 var img_link = "https://post-souschef.s3.amazonaws.com/" + key;
-                //console.log("img link: " + img_link);
                 var jsonForm = {
                     id: idCount, 
                     label: value[key].label, 
                     image_url: img_link
                 };
                 
-                ingred.push(jsonForm); //.add(jsonForm);// push(jsonForm); 
+                ingred.push(jsonForm); 
                 console.log("Key:", key);
                 idCount++; 
-                //console.log("delete")
             }
         }
     }).catch(function (error) {
