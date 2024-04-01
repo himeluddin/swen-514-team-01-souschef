@@ -1,6 +1,6 @@
 var bucketRegion = "us-east-1";
-const accessKeyId = "id"
-const secretAccessKey = "pass"
+const accessKeyId = "AKIA5FTZDMHU4AIXE3E5"
+const secretAccessKey = "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"
 
 const AWS = require('aws-sdk');
 

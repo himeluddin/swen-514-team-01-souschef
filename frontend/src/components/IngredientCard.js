@@ -1,6 +1,6 @@
 import close from '../imgs/close.png'
 import '../css/CameraComponent.css'
-import { useRef, forwardRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { EditModal } from './EditModal';
 
 function IngredientCard({ ingredientInfo, removeCard }) {
@@ -9,10 +9,10 @@ function IngredientCard({ ingredientInfo, removeCard }) {
 
     return (
         showCard ?
-        (<div>
-            <div class="p-3 px-10 max-w-sm w-full lg:max-w-full lg:flex">
-                <div class="h-60 lg:h-auto lg:w-60 flex-none bg-cover rounded-tl rounded-bl text-center overflow-hidden" title="Woman holding a mug">
-                    <img src={ingredientInfo.image_url} alt="TEMP"></img>
+        (<div class="p-3 px-10 w-full">
+            <div class="shadow-lg max-w-sm lg:max-w-full lg:flex">
+                <div class="h-60 lg:h-auto lg:w-60 flex-none bg-cover rounded-tl rounded-bl text-center overflow-hidden">
+                    <img src={ingredientInfo.image_url} alt={ingredientInfo.name}></img>
                 </div>
                 <div class="w-full border border-gray-400 lg:border-gray-400 bg-white rounded-tr rounded-br p-4 flex flex-col justify-between leading-normal">
                         <div class="flex items-center card-button">
