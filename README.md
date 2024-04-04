@@ -26,5 +26,5 @@ NOTE: this may require you to get an IAM from Angela or use one from Mackenize o
 
 
 # CSS Used 
-* currently trying to pick between Tailwind.css vs Materializ.css
+* currently using tailwind.css for the majority of CSS design. 
 
