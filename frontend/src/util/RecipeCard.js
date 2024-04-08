@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link, use} from 'react-router-dom';
-
+/* these are the cards that are generated when the recipes are generated */
 function RecipeCard({recipe}) {
     return (
         <>

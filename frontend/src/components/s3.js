@@ -1,7 +1,11 @@
+/**
+ * File containing bucket information and where credentials should be defined 
+ * Also contains all AWS interfacing methods that we made
+ */
 var bucketRegion = "us-east-1";
 const accessKeyId = "AKIA5FTZDMHU4AIXE3E5"
 const secretAccessKey = "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"
-
+const BUCKET_NAME = "post-souschef";
 const AWS = require('aws-sdk');
 
 const s3 = new AWS.S3({
@@ -136,4 +140,31 @@ export async function getIngredients(bucketName, prefix) {
 
     //console.log("SessionKey from S3 function: " + sessionStorage.getItem("sessionKey"));
     return ingredientsDict;
+}
+
+export async function updateLabel(sessionKey, imageName , updatedLabel){
+    const params = {
+        Bucket: BUCKET_NAME, 
+        Key: imageName, 
+        Tagging: {
+            TagSet: [
+                {
+                    Key: 'Label', // not sure if this is the right case 
+                    Value: updateLabel 
+                }
+
+            ]
+        }
+    }
+
+    s3.putObjectTagging(params, function(err, data) {
+        if(err) {
+            console.log("Error", err); 
+        }else{ 
+            console.log("Object tags updated successfully", data); 
+        }
+    });
+
+    
+
 }

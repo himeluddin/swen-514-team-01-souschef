@@ -27,7 +27,7 @@ function IngredientCard({ ingredientInfo, removeCard }) {
                                 Edit
                             </span>
                         </button>
-                        <EditModal ref={editModalRef}/>
+                        <EditModal {...ingredientInfo} ref={editModalRef}/>
                     </div>
                 </div>
             </div>
