@@ -2,11 +2,14 @@ import close from '../imgs/close.png'
 import '../css/CameraComponent.css'
 import { useRef, useState } from 'react';
 import { EditModal } from './EditModal';
+import {deleteObject} from './s3';
 
 function IngredientCard({ ingredientInfo, removeCard }) {
     const [showCard, setShowCard] = useState(true);
+
     const editModalRef = useRef();
-    
+    const imageKey = ingredientInfo.image_url.split("/")[3];
+    console.log("imgkey: "+ imageKey); 
     return (
         showCard ?
         (<div class="p-3 px-10 w-full">
@@ -16,7 +19,7 @@ function IngredientCard({ ingredientInfo, removeCard }) {
                 </div>
                 <div class="w-full border border-gray-400 lg:border-gray-400 bg-white rounded-tr rounded-br p-4 flex flex-col justify-between leading-normal">
                         <div class="flex items-center card-button">
-                            <button onClick={() => {setShowCard(false)}} class="h-12 w-12 p-0 static transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                            <button onClick={() => {deleteObject(imageKey); setShowCard(false);}} class="h-12 w-12 p-0 static transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                 <img src={close} alt="Close Button"></img>
                             </button>
                         </div>

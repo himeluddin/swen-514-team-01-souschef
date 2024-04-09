@@ -3,8 +3,8 @@
  * Also contains all AWS interfacing methods that we made
  */
 var bucketRegion = "us-east-1";
-const accessKeyId = "AKIA5FTZDMHU4AIXE3E5"
-const secretAccessKey = "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"
+const accessKeyId = "test"
+const secretAccessKey = "Test"
 const BUCKET_NAME = "post-souschef";
 const AWS = require('aws-sdk');
 
@@ -64,11 +64,11 @@ export async function getContentWithPrefix(bucketName, prefix) {
 // }
 
 
-export async function generateURL(bucketName, keyName){
+export async function generateURL(bucketName, keyName) {
 
     const params = ({
-        Bucket:bucketName,
-        Key:keyName,
+        Bucket: bucketName,
+        Key: keyName,
         Expires: 60
     })
 
@@ -142,29 +142,43 @@ export async function getIngredients(bucketName, prefix) {
     return ingredientsDict;
 }
 
-export async function updateLabel(imageName , updatedLabel){
+export async function updateLabel(imageName, updatedLabel) {
     const params = {
-        Bucket: BUCKET_NAME, 
-        Key: imageName, 
+        Bucket: BUCKET_NAME,
+        Key: imageName,
         Tagging: {
             TagSet: [
                 {
                     Key: 'Label', // not sure if this is the right case 
-                    Value: updatedLabel 
+                    Value: updatedLabel
                 }
 
             ]
         }
     }
 
-    s3.putObjectTagging(params, function(err, data) {
-        if(err) {
-            console.log("Error", err); 
-        }else{ 
-            console.log("Object tags updated successfully", data); 
+    s3.putObjectTagging(params, function (err, data) {
+        if (err) {
+            console.log("Error", err);
+        } else {
+            console.log("Object tags updated successfully", data);
         }
     });
 
-    
+}
 
+export async function deleteObject(imageName) {
+    const params = {
+        Bucket: BUCKET_NAME,
+        Key: imageName
+    };
+
+    // Delete the object
+    s3.deleteObject(params, function (err, data) {
+        if (err) {
+            console.log("Error deleting object:", err);
+        } else {
+            console.log("Object deleted successfully:", data);
+        }
+    });
 }

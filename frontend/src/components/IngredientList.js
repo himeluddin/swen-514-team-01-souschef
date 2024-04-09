@@ -7,7 +7,13 @@ import GenerateRecipeButton from "./GenerateRecipeButton";
 
 import { useLocation } from "react-router-dom";
 
-
+/**
+ * possible solutions: 
+ * maybe look into the labels and see if you can delete the ones that dont exist anymor
+ * it seems like its not updating properly 
+ * 
+ * maybe update the labels somewhere im not sure errmmm 
+ */
 function formatLabels(rawIngredients){
     const uniqueIngredients = [];
 
