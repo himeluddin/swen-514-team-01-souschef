@@ -142,7 +142,7 @@ export async function getIngredients(bucketName, prefix) {
     return ingredientsDict;
 }
 
-export async function updateLabel(sessionKey, imageName , updatedLabel){
+export async function updateLabel(imageName , updatedLabel){
     const params = {
         Bucket: BUCKET_NAME, 
         Key: imageName, 
@@ -150,7 +150,7 @@ export async function updateLabel(sessionKey, imageName , updatedLabel){
             TagSet: [
                 {
                     Key: 'Label', // not sure if this is the right case 
-                    Value: updateLabel 
+                    Value: updatedLabel 
                 }
 
             ]

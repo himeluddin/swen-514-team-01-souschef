@@ -28,7 +28,7 @@ function IngredientList() {
 
     
     var formattedIngred = formatLabels(ingred); 
-    //console.log(formattedIngred);
+    console.log(ingred);
     
     return (
         <div>

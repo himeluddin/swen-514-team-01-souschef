@@ -11,17 +11,10 @@ function updateIngredientLabel(photo, updatedLabel) {
     // need to parse the image name for the key which is after the last back slash
     // this should be called after you have set the currentPhoto with  
     console.log("photo url edit modal: " + photo); 
-    var img_key = photo.image_url.split("/"); // the third one should be the back end of key 
+    console.log("session id: " + sessionStorage.getItem("sessionKey"))
+    var img_key = photo.split("/")[3]; // the third one should be the back end of key 
     console.log(img_key);
-    updateLabel(sessionStorage.getItem("sessionKey"), img_key, updatedLabel); // need to see how to get that user input
-    /**
-     * ()
-     * current bucket name  (dont need this anymore )
-     * session key 
-     * imageName (which is the key)
-     * updated label name 
-     * in order to make the request 
-    */
+    updateLabel(img_key, updatedLabel); // need to see how to get that user input
 }
 const EditModal = forwardRef((props, ref) => {
     const [showModal, setShowModal] = useState(false);
@@ -56,7 +49,7 @@ const EditModal = forwardRef((props, ref) => {
                                         </div>
                                     </div>
                                     <div class="flex flex-row">
-                                        <input placeholder="Edit..." class="flex flex-col shadow appearance-none border rounded w-full py-2 px-4 text-black" />
+                                        <input id="newLabel"placeholder="Edit..." class="flex flex-col shadow appearance-none border rounded w-full py-2 px-4 text-black" />
                                     </div>
                                 </form>
                             </div>
@@ -71,7 +64,11 @@ const EditModal = forwardRef((props, ref) => {
                                     or
                                     we could use a react form (once we click submit the form will describe information we need to grab)
                                 */}
-                                <button onClick={() => {setShowModal(false); updateIngredientLabel(currentPhoto, "temporary"); }} class="static inline-flex p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                                <button onClick={() => 
+                                    { 
+                                        updateIngredientLabel(currentPhoto, document.getElementById("newLabel").value);
+                                        setShowModal(false);  
+                                    }} class="static inline-flex p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
                                     <span class="static px-6 py-3 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                         Submit
                                     </span>

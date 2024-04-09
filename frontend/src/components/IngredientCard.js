@@ -6,7 +6,7 @@ import { EditModal } from './EditModal';
 function IngredientCard({ ingredientInfo, removeCard }) {
     const [showCard, setShowCard] = useState(true);
     const editModalRef = useRef();
-
+    
     return (
         showCard ?
         (<div class="p-3 px-10 w-full">
