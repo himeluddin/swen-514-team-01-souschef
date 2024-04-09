@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "aws-amplify": "^6.0.0",
     "aws-sdk": "^2.1589.0",
+    "jspdf": "^2.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",

@@ -1,22 +1,32 @@
-import React from "react";
+import React , { useRef } from "react";
 import NavBar from "./NavBar";
 import { useLocation, useParams } from "react-router-dom";
-
+import ReactDOMServer from "react-dom/server";
+import { useReactToPrint } from 'react-to-print';
+import html2canvas from "html2canvas";
 
 
 // this shows on the recipeInformation page
 //displays all the possible recipes
-function Recipe() {
+
+export default function Recipe() {
     // this will be replaced with information from json 
     const { recipeName } = useParams();
     const location = useLocation();
     console.log("link: " + location.state.link);
+    function handlePrint() {
+        window.print()
 
-    // (API PEOPLE)
-    //****edit this***///
+}
 
     return (
-        <div className={"h-screen"}>
+        <div  className={"h-screen"}>
+            <button onClick={() => handlePrint()} className="static justify-center inline-flex p-1 w-full overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                    <span className="static w-full h-12 px-5 py-2 text-2xl transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                        Generate PDF
+                    </span>
+                Generate PDF
+            </button>
             <NavBar pageTitle="Recipe Information" showBackButton={true} showCloseButton={true} backLink="/recipes"/>
             <div className="font-InterExtraLight font-bold text-center text-4xl text-gray-900 pb-5">
                 {recipeName}
@@ -43,9 +53,9 @@ function Recipe() {
                         {location.state.directions.map((step) => <li>{step}</li>)}
                     </ul>
                 </div>
+
             </div>
         </div>
     );
 }
 
-export default Recipe;
