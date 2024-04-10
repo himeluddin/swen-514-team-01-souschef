@@ -4,10 +4,11 @@
  */
 var bucketRegion = "us-east-1";
 const accessKeyId = "test"
-const secretAccessKey = "Test"
-const BUCKET_NAME = "post-souschef";
+const secretAccessKey = "test"
+const BUCKET_NAME_POST = "post-souschef";
+const BUCKET_NAME_PRE = "pre-souschef"; 
 const AWS = require('aws-sdk');
-
+var deletedObjects = [];
 const s3 = new AWS.S3({
     region: bucketRegion,
     credentials: {
@@ -64,10 +65,10 @@ export async function getContentWithPrefix(bucketName, prefix) {
 // }
 
 
-export async function generateURL(bucketName, keyName) {
+export async function generateURL(keyName) {
 
     const params = ({
-        Bucket: bucketName,
+        Bucket: BUCKET_NAME_PRE,
         Key: keyName,
         Expires: 60
     })
@@ -113,9 +114,9 @@ export async function generateURL(bucketName, keyName) {
 //     console.log("SessionKey from S3 function: " + sessionStorage.getItem("sessionKey"));
 //     return ingredientsArrayList;
 // }
-export async function getIngredients(bucketName, prefix) {
+export async function getIngredients(prefix) {
     const params = {
-        Bucket: bucketName,
+        Bucket: BUCKET_NAME_POST,
         Prefix: prefix
     };
 
@@ -126,7 +127,7 @@ export async function getIngredients(bucketName, prefix) {
 
     for (const object of data.Contents) {
         const objectParams = {
-            Bucket: bucketName,
+            Bucket: BUCKET_NAME_POST,
             Key: object.Key
         };
 
@@ -144,7 +145,7 @@ export async function getIngredients(bucketName, prefix) {
 
 export async function updateLabel(imageName, updatedLabel) {
     const params = {
-        Bucket: BUCKET_NAME,
+        Bucket: BUCKET_NAME_POST,
         Key: imageName,
         Tagging: {
             TagSet: [
@@ -169,10 +170,13 @@ export async function updateLabel(imageName, updatedLabel) {
 
 export async function deleteObject(imageName) {
     const params = {
-        Bucket: BUCKET_NAME,
+        Bucket: BUCKET_NAME_POST,
         Key: imageName
     };
 
+    console.log("img name of deleted obj from DeleteObj function: " + imageName);
+    deletedObjects.push(imageName); 
+    
     // Delete the object
     s3.deleteObject(params, function (err, data) {
         if (err) {
@@ -181,4 +185,11 @@ export async function deleteObject(imageName) {
             console.log("Object deleted successfully:", data);
         }
     });
+}
+
+export function getDeletedObjects(){
+    for(let k= 0; k < deletedObjects.length; k++){
+        console.log("deleted object from the getDeletedObjects method: " +  deletedObjects); 
+    }
+    return deletedObjects; // return the objects that were deleted in a session 
 }

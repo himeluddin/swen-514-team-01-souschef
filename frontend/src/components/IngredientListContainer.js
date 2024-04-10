@@ -6,12 +6,17 @@ function IngredientListContainer({ ingredients = [] }) {
 
     const uniqueIngredients = [];
 
-    ingredientsList.forEach((ingredient) => {
-        if (!uniqueIngredients.find((uniqueIngredient) => uniqueIngredient.id === ingredient.id)) {
-            uniqueIngredients.push(ingredient);
-        }
-    })
+    // ingredientsList.forEach((ingredient) => {
+    //     if (!uniqueIngredients.find((uniqueIngredient) => uniqueIngredient.id === ingredient.id)) {
+    //         uniqueIngredients.push(ingredient);
+    //     }
+    // })
 
+
+    for(let imgKey in ingredientsList){
+        uniqueIngredients.push(ingredientsList[imgKey]); 
+        console.log("ingred from ingred list container: " + ingredientsList[imgKey].image_url);
+    }
     
     const formattedIngredients = uniqueIngredients.map((ingredientInfo) => {
         return (

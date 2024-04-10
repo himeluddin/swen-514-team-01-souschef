@@ -2,14 +2,14 @@ import Webcam from "react-webcam";
 import React, { useRef, useState, useEffect } from 'react';
 import '../css/CameraComponent.css';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import { generateURL , getIngredients } from './s3';
+import { generateURL, getIngredients } from './s3';
 import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
 
 
 /*pre-processing bucket for Rekognition */
-const AWS =require('aws-sdk');
+const AWS = require('aws-sdk');
 // const fs = require('fs');
-AWS.config.update({region: 'us-east-1'});
+AWS.config.update({ region: 'us-east-1' });
 
 const s3 = new AWS.S3();
 const bucketName = 'pre-souschef';
@@ -24,36 +24,63 @@ function createFileName() {
     return filename;
 }
 
-var ingred = []; 
+var ingred = {};
 
-function getIngredientsS3() {
-    var ingredientsDict = getIngredients("post-souschef", sessionStorage.getItem("sessionKey"));
+
+function getIngredientsS3(deletedIngredients) {
+    var ingredientsDict = getIngredients(sessionStorage.getItem("sessionKey"));
 
     ingredientsDict.then(function (value) {
-    
-        var idCount = 0; 
+        // TODO: deletes the deleted values from the dictionary to update it => having problem currently with updating the state of the ingred list comp 
+        // like when i pass it in it sees that the image isnt there anymore (good) but its not like seeing that the list has changed really
+        if (deletedIngredients.length != 0) { // if it has a value in it 
+            for (let keyIndex = 0; keyIndex < deletedIngredients.length; keyIndex++) { // delete it from the dictionary 
+                var imgKey = deletedIngredients[keyIndex];
+                console.log("img:" + imgKey);
+                ingred = Object.keys(ingred).filter(objKey => objKey != imgKey).reduce((newObj, key) =>
+                    {
+                        newObj[key] = ingred[key];
+                        return newObj; 
+                    }, {}
+            
+                );
+            }
+        }
+        
+        for (let k in ingred) {
+            console.log("after deleted: " + k);
+        }
 
+        var idCount = 0;
+        console.log(deletedIngredients);
         // adds ingredients pulled from s3 to a formatted list to be sent to ingredient list
         for (const key in value) {
-            if (value.hasOwnProperty(key)) {
+            if (value.hasOwnProperty(key)) { // if it has a value 
+                
                 var img_link = "https://post-souschef.s3.amazonaws.com/" + key;
                 var jsonForm = {
-                    id: idCount, 
-                    label: value[key].label, 
+                    id: idCount,
+                    label: value[key].label,
                     image_url: img_link
                 };
-                
-                ingred.push(jsonForm); 
+
+                ingred[key] = jsonForm;
+                //ingred.push(jsonForm); 
                 console.log("Key:", key);
-                idCount++; 
+                idCount++;
+
             }
+        }
+
+        for (let k in ingred) {
+            console.log("after going thru the thing to make it not fucked: " + k);
         }
     }).catch(function (error) {
         console.error(error); // Handle errors if the Promise is rejected
     });
 }
 
-function CameraComponent() {
+function CameraComponent({ deletedIngredients }) {
     const videoRef = useRef(null);
     const photoRef = useRef(null);
     const widthPhoto = 414;
@@ -130,7 +157,7 @@ function CameraComponent() {
         photo.toBlob(async function (blob) {
             try {
                 // Generate signed URL for uploading to S3
-                const url = await generateURL(bucketName, filename);
+                const url = await generateURL(filename);
 
                 // Upload p hoto to S3 using PUT request
                 await fetch(url, {
@@ -145,10 +172,10 @@ function CameraComponent() {
             } catch (error) {
                 console.error('Error uploading photo to S3:', error);
             }
-        }, 'image/jpeg'); 
-        getIngredientsS3();
-        await new Promise(r => setTimeout(r,2000));
-        getIngredientsS3(); 
+        }, 'image/jpeg');
+
+        await new Promise(r => setTimeout(r, 3000));
+        getIngredientsS3(deletedIngredients);
     }
 
 
@@ -179,7 +206,7 @@ function CameraComponent() {
                     <div class="flex items-center justify-center pl-80">
                         <canvas ref={photoRef}></canvas>
                     </div>
-                    <br/>
+                    <br />
                     <div class="flex items-center justify-center pl-40">
                         <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white 
                         focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800" onClick={closePhoto}>
@@ -190,22 +217,22 @@ function CameraComponent() {
                     </div>
 
 
-                        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white
+                    <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white
                 focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800" onClick={savePhoto}>
                         <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                             Save Photo
                         </span>
-                        </button>
-            
+                    </button>
+
 
 
                     <Link to={'/ingredientlist'} state={ingred}>
-                    <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white
-                focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800" onClick={getIngredientsS3()}>
+                        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white
+                focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
 
-                    Next
-                </button>
-                </Link>
+                            Next
+                        </button>
+                    </Link>
 
                 </div>
             </div>

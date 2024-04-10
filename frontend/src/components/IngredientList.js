@@ -4,7 +4,6 @@ import IngredientListContainer from "./IngredientListContainer";
 import NavBar from "./NavBar";
 import AddButton from "./AddButton";
 import GenerateRecipeButton from "./GenerateRecipeButton";
-
 import { useLocation } from "react-router-dom";
 
 /**
@@ -33,8 +32,12 @@ function IngredientList() {
     const ingred = location.state;
 
     
-    var formattedIngred = formatLabels(ingred); 
-    console.log(ingred);
+    //var formattedIngred = formatLabels(ingred); 
+    //console.log(ingred);
+    var ingredFormatted = []; 
+    for(let imgKey in ingred){
+        ingredFormatted.push(ingred[imgKey]); // contains the json 
+    }
     
     return (
         <div>
@@ -44,7 +47,7 @@ function IngredientList() {
                 <AddButton />
             </Link>
 
-            <Link to={'/recipes'} state={formattedIngred}>
+            <Link to={'/recipes'} state={ingredFormatted}>
                 <GenerateRecipeButton />
             </Link>
         </div>
