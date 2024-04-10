@@ -12,7 +12,7 @@ const AWS =require('aws-sdk');
 AWS.config.update({region: 'us-east-1'});
 
 const s3 = new AWS.S3();
-const bucketName = 'pre-souschef';
+const bucketName = 'presouschef';
 
 /* count for which number of image it is currently */
 let count = 0;
@@ -27,7 +27,7 @@ function createFileName() {
 var ingred = []; 
 
 function getIngredientsS3() {
-    var ingredientsDict = getIngredients("post-souschef", sessionStorage.getItem("sessionKey"));
+    var ingredientsDict = getIngredients("postsouschef", sessionStorage.getItem("sessionKey"));
 
     ingredientsDict.then(function (value) {
     
@@ -36,7 +36,7 @@ function getIngredientsS3() {
         // adds ingredients pulled from s3 to a formatted list to be sent to ingredient list
         for (const key in value) {
             if (value.hasOwnProperty(key)) {
-                var img_link = "https://post-souschef.s3.amazonaws.com/" + key;
+                var img_link = "https://postsouschef.s3.amazonaws.com/" + key;
                 var jsonForm = {
                     id: idCount, 
                     label: value[key].label, 
