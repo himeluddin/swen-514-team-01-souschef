@@ -5,6 +5,7 @@ import NavBar from "./NavBar";
 import AddButton from "./AddButton";
 import GenerateRecipeButton from "./GenerateRecipeButton";
 import { useLocation } from "react-router-dom";
+import { getDeletedObjects } from "./s3";
 
 /**
  * possible solutions: 
@@ -26,6 +27,7 @@ function formatLabels(rawIngredients){
     
 }
 
+
 function IngredientList() {
 
     // gets the ingredients passed in through the state (ingred is passed in as a dictionary)
@@ -42,12 +44,12 @@ function IngredientList() {
     return (
         <div>
             <NavBar pageTitle={"Ingredient List"} />
-            {/* passes in the ingred dictionary  */}
+            {/* passes in the formatted ingred as an array   */}
             <IngredientListContainer ingredients={ingredFormatted}/>
             <Link to={'/ingredientupload'}>
                 <AddButton />
             </Link>
-
+            {/* if the user deletes smth and then hits generate recipe how do we get the most updated formatted ingred */}
             <Link to={'/recipes'} state={ingredFormatted}>
                 <GenerateRecipeButton />
             </Link>

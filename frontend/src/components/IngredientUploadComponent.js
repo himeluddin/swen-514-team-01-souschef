@@ -20,7 +20,7 @@ const IngredientUploadComponent = () => {
     
     return (
         <div>
-            <NavBar pageTitle="Ingredient Upload" showBackButton={true}/> 
+            <NavBar pageTitle="Ingredient Upload"/> 
             <div class="flex flex-col justify-center items-center ps-px-12 pe-px-12">\
 
                 {/* instructions for the user */}

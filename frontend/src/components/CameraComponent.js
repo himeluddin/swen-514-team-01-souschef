@@ -30,7 +30,7 @@ var ingred = {};
 
 
 /*called every time Camera component is generated to */
-function deleteIngredients(deletedIngredients){
+export function deleteIngredients(deletedIngredients){
     if (deletedIngredients.length != 0) { // iif the list contains values to delete from the dictionary 
         for (let keyIndex = 0; keyIndex < deletedIngredients.length; keyIndex++) { // delete it from the dictionary 
             var imgKey = deletedIngredients[keyIndex];
@@ -69,7 +69,8 @@ function getIngredientsS3() {
                 var jsonForm = {
                     id: idCount,
                     label: value[key].label,
-                    image_url: img_link
+                    image_url: img_link,
+                    img_key: key
                 };
 
                 ingred[key] = jsonForm;

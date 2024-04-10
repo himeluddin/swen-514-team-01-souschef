@@ -7,11 +7,18 @@ import RecipeCard from "../util/RecipeCard";
 import { fetchRecipes } from './ApiGatewayService';
 import { useLocation } from "react-router-dom";
 
+
+
+
 function RecipeView() {
     // you still need to do element.label to get the actual label ... otherwise the sorting stuff dont work to get the non copies 
     const location = useLocation(); 
     const ingredLabels = location.state; 
-    console.log("ingred labels recipie view: " + ingredLabels);
+    
+    for(let k = 0; k < ingredLabels.length; k++){
+        console.log("ingred labels recipie view: " + ingredLabels[k].img_key);
+    }
+    
 
     const [recipes, setRecipes] = useState([]);
     const [numRecipes, setNumRecipes] = useState(3);
