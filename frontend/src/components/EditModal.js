@@ -5,16 +5,24 @@ import React, { useImperativeHandle, useState, forwardRef } from "react";
 import close from '../imgs/close.png'
 import {updateLabel} from './s3';
 
+/*
+calls the updateLabel method from s3.js in order to update the label on the S3
+needs the photo url (which is put in when props are called)
+*/
 function updateIngredientLabel(photo, updatedLabel) {
-    // what information do we need to update a label? 
-    
-    // need to parse the image name for the key which is after the last back slash
-    // this should be called after you have set the currentPhoto with  
+
+    // print statements to understand what is being retrieved  
     console.log("photo url edit modal: " + photo); 
     console.log("session id: " + sessionStorage.getItem("sessionKey"))
+
+    // splits up the url and then retrieves the image name (e.g. sessionkey_01.jpg)
     var img_key = photo.split("/")[3]; // the third one should be the back end of key 
+    
+    // print statement to check if it is getting the right image 
     console.log(img_key);
-    updateLabel(img_key, updatedLabel); // need to see how to get that user input
+
+    // takes user input and calls updateLabel from s3.js to update the label
+    updateLabel(img_key, updatedLabel); 
 }
 const EditModal = forwardRef((props, ref) => {
     const [showModal, setShowModal] = useState(false);
@@ -25,7 +33,7 @@ const EditModal = forwardRef((props, ref) => {
         }
     }))
 
-    var currentPhoto = props.image_url; // gets the photo from the passed in properties? 
+    var currentPhoto = props.image_url; // gets the photo from the passed in properties
     return (
         <>
             {showModal ? (
@@ -49,6 +57,7 @@ const EditModal = forwardRef((props, ref) => {
                                         </div>
                                     </div>
                                     <div class="flex flex-row">
+                                        {/* where we are getting the user input from  */}
                                         <input id="newLabel"placeholder="Edit..." class="flex flex-col shadow appearance-none border rounded w-full py-2 px-4 text-black" />
                                     </div>
                                 </form>
@@ -58,14 +67,9 @@ const EditModal = forwardRef((props, ref) => {
                                 <button onClick={() => setShowModal(false)} type="button" className="static text-gray-400 border-solid border-gray-400 rounded px-6 py-3 text-sm outline-none focus:outline-none mr-1 ease-in duration-75 hover:bg-gray-400 hover:text-white">
                                     Close
                                 </button>
-                                {/* want to insert another function on click as well, how to do that?
-                                
-                                    perhaps just grabs from input element 
-                                    or
-                                    we could use a react form (once we click submit the form will describe information we need to grab)
-                                */}
                                 <button onClick={() => 
                                     { 
+                                        // pulls the user input and then after it calls updateIngredientLabel it will close the pop up
                                         updateIngredientLabel(currentPhoto, document.getElementById("newLabel").value);
                                         setShowModal(false); 
                                         

@@ -16,7 +16,6 @@ function RecipeView() {
     const [recipes, setRecipes] = useState([]);
     const [numRecipes, setNumRecipes] = useState(3);
 
-    let number2 = 0
     useEffect(() => {
         async function fetchData() {
             try {

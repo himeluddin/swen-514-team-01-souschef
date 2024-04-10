@@ -9,6 +9,8 @@ const BUCKET_NAME_POST = "post-souschef";
 const BUCKET_NAME_PRE = "pre-souschef"; 
 const AWS = require('aws-sdk');
 var deletedObjects = [];
+
+// s3 instance to access the s3 buckets
 const s3 = new AWS.S3({
     region: bucketRegion,
     credentials: {
@@ -18,6 +20,7 @@ const s3 = new AWS.S3({
     signatureVersion: 'v4'
 });
 
+// not sure what this method is for but I know that Himel made this and it may be used somewhere
 export async function getContentWithPrefix(bucketName, prefix) {
     const params = {
         Bucket: bucketName,
@@ -33,38 +36,7 @@ export async function getContentWithPrefix(bucketName, prefix) {
     }
 }
 
-// export function listObjs(params) {
-//     s3.listObjectsV2(params, (err, data) => {
-//         if (err) {
-//             console.error("Error:", err);
-//         } else {
-//             // For each object in the response
-//             data.Contents.forEach((object) => {
-//                 const objectKey = object.Key;
-//
-//                 // Define parameters for GetObjectTagging operation
-//                 const taggingParams = {
-//                     Bucket: 'post-souschef',
-//                     Key: 'Label'
-//                 };
-//
-//                 // Call GetObjectTagging to get tags associated with the object
-//                 s3.getObjectTagging(taggingParams, (taggingErr, taggingData) => {
-//                     if (taggingErr) {
-//                         console.error("Error getting tags for object", objectKey, ":", taggingErr);
-//                     } else {
-//                         const tags = taggingData.TagSet;
-//                         console.log("Tags for object", objectKey, ":", tags);
-//                         return tags;
-//                     }
-//                 });
-//             });
-//         }
-//     });
-//
-// }
-
-
+// generates the url to make a PUT request to s3 bucket 
 export async function generateURL(keyName) {
 
     const params = ({
@@ -76,44 +48,7 @@ export async function generateURL(keyName) {
     return await s3.getSignedUrlPromise('putObject', params)
 }
 
-
-// export async function getIngredients(bucketName, prefix){
-//     const params = ({
-//         Bucket: bucketName, 
-//         Prefix: prefix
-//     })
-
-//     var ingredientsArrayList = {};
-//     console.log("prefix being used: " + prefix); 
-//     s3.listObjectsV2(params, (err, data) => {
-//         if (err) {
-//           console.error('Error retrieving object:', err);
-//         } else {
-//           // Object retrieved successfully
-//             console.log('Object retrieved successfully:'); // data.contents is everything 
-//             // Do something with the data (e.g., save it to a file)
-//             data.Contents.forEach(object => {
-//                 const objectParams = {
-//                     Bucket: bucketName,
-//                     Key: object.Key
-//                 };
-//                 s3.getObjectTagging(objectParams, (tagErr, tagData) => {
-//                     if (tagErr) {
-//                         console.error('Error retrieving tags for object', object.Key, ':', tagErr);
-//                     } else {
-//                         //console.log('Tags for object', object.Key, ':', tagData.TagSet);
-//                         var tagLabel = tagData.TagSet[0].Value;
-//                         //console.log("tag label: " + tagLabel); 
-//                         ingredientsArrayList[object.Key] = {label: tagLabel}; 
-//                     }
-//                 });
-//             });
-//         }
-//     });
-
-//     console.log("SessionKey from S3 function: " + sessionStorage.getItem("sessionKey"));
-//     return ingredientsArrayList;
-// }
+// gets the ingredients that correspond to the given prefix (a user's sessionkey)
 export async function getIngredients(prefix) {
     const params = {
         Bucket: BUCKET_NAME_POST,
@@ -121,7 +56,6 @@ export async function getIngredients(prefix) {
     };
 
     const data = await s3.listObjectsV2(params).promise();
-    //console.log('Object retrieved successfully:');
 
     const ingredientsDict = {};
 
@@ -139,10 +73,10 @@ export async function getIngredients(prefix) {
 
     console.log("length of ingred dict s3: " + Object.keys(ingredientsDict).length);
 
-    //console.log("SessionKey from S3 function: " + sessionStorage.getItem("sessionKey"));
     return ingredientsDict;
 }
 
+/*updates the label in the s3 bucket with the updated label from the user and the image name to update  */
 export async function updateLabel(imageName, updatedLabel) {
     const params = {
         Bucket: BUCKET_NAME_POST,
@@ -168,6 +102,7 @@ export async function updateLabel(imageName, updatedLabel) {
 
 }
 
+/**deletes objects from bucket given the name of the image  */
 export async function deleteObject(imageName) {
     const params = {
         Bucket: BUCKET_NAME_POST,
@@ -187,6 +122,7 @@ export async function deleteObject(imageName) {
     });
 }
 
+/* gets the list of deletedObjects from here */
 export function getDeletedObjects(){
     for(let k= 0; k < deletedObjects.length; k++){
         console.log("deleted object from the getDeletedObjects method: " +  deletedObjects); 

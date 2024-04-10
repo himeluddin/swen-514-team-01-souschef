@@ -7,13 +7,12 @@ import { useLocation, useParams } from "react-router-dom";
 // this shows on the recipeInformation page
 //displays all the possible recipes
 function Recipe() {
-    // this will be replaced with information from json 
+    // this gets the recipe name from the params in the url 
     const { recipeName } = useParams();
+    
+    // will be used to get the link, ingredients and formatting (?) ask Dom 
     const location = useLocation();
-    console.log("link: " + location.state.link);
 
-    // (API PEOPLE)
-    //****edit this***///
 
     return (
         <div className={"h-screen"}>

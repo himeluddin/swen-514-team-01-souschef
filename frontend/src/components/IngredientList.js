@@ -28,21 +28,22 @@ function formatLabels(rawIngredients){
 
 function IngredientList() {
 
+    // gets the ingredients passed in through the state (ingred is passed in as a dictionary)
     const location = useLocation(); 
-    const ingred = location.state;
+    const ingred = location.state; // this is a dictionary
 
     
-    //var formattedIngred = formatLabels(ingred); 
-    //console.log(ingred);
+    // gets the json from the stored value of the dictionary
     var ingredFormatted = []; 
     for(let imgKey in ingred){
-        ingredFormatted.push(ingred[imgKey]); // contains the json 
+        ingredFormatted.push(ingred[imgKey]); 
     }
     
     return (
         <div>
             <NavBar pageTitle={"Ingredient List"} />
-            <IngredientListContainer ingredients={ingred}/>
+            {/* passes in the ingred dictionary  */}
+            <IngredientListContainer ingredients={ingredFormatted}/>
             <Link to={'/ingredientupload'}>
                 <AddButton />
             </Link>
