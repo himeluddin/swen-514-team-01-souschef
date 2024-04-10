@@ -3,10 +3,10 @@
  * Also contains all AWS interfacing methods that we made
  */
 var bucketRegion = "us-east-1";
-const accessKeyId = "test"
-const secretAccessKey = "test"
-const BUCKET_NAME_POST = "post-souschef";
-const BUCKET_NAME_PRE = "pre-souschef"; 
+const accessKeyId = ""
+const secretAccessKey = ""
+const BUCKET_NAME_POST = "postsouschef";
+const BUCKET_NAME_PRE = "presouschef"; 
 const AWS = require('aws-sdk');
 var deletedObjects = [];
 

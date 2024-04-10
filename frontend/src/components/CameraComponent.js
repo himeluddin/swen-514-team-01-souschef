@@ -65,7 +65,7 @@ function getIngredientsS3() {
         for (const key in value) {
             if (value.hasOwnProperty(key)) { // if it has a value 
                 
-                var img_link = "https://post-souschef.s3.amazonaws.com/" + key;
+                var img_link = "https://postsouschef.s3.amazonaws.com/" + key;
                 var jsonForm = {
                     id: idCount,
                     label: value[key].label,
