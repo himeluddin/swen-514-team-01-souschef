@@ -21,7 +21,7 @@ const IngredientUploadComponent = () => {
     return (
         <div>
             <NavBar pageTitle="Ingredient Upload"/> 
-            <div class="flex flex-col justify-center items-center ps-px-12 pe-px-12">\
+            <div class="flex flex-col justify-center items-center pe-px-12">\
 
                 {/* instructions for the user */}
                 <h3 className="font-InterExtraLight text-lg text-red-300" >

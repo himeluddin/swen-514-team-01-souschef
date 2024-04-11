@@ -30,21 +30,20 @@ var ingred = {};
 
 
 /*called every time Camera component is generated to */
-export function deleteIngredients(deletedIngredients){
+export function deleteIngredients(deletedIngredients) {
     if (deletedIngredients.length != 0) { // iif the list contains values to delete from the dictionary 
         for (let keyIndex = 0; keyIndex < deletedIngredients.length; keyIndex++) { // delete it from the dictionary 
             var imgKey = deletedIngredients[keyIndex];
             console.log("img:" + imgKey);
-            ingred = Object.keys(ingred).filter(objKey => objKey != imgKey).reduce((newObj, key) =>
-                {
-                    newObj[key] = ingred[key];
-                    return newObj; 
-                }, {}
-        
+            ingred = Object.keys(ingred).filter(objKey => objKey != imgKey).reduce((newObj, key) => {
+                newObj[key] = ingred[key];
+                return newObj;
+            }, {}
+
             );
         }
     }
-    
+
     // print statement to determine if it was successfully deleted 
     for (let k in ingred) {
         console.log("after deleted: " + k);
@@ -60,11 +59,11 @@ function getIngredientsS3() {
         // like when i pass it in it sees that the image isnt there anymore (good) but its not like seeing that the list has changed really
 
         var idCount = 0;
-        
+
         // adds ingredients pulled from s3 to a formatted list to be sent to ingredient list
         for (const key in value) {
             if (value.hasOwnProperty(key)) { // if it has a value 
-                
+
                 var img_link = "https://post-souschef.s3.amazonaws.com/" + key;
                 var jsonForm = {
                     id: idCount,
@@ -104,7 +103,7 @@ function CameraComponent({ deletedIngredients }) {
     const getVideo = () => {
         navigator.mediaDevices
             .getUserMedia({
-                video: { width: 1920, height: 1080 }
+                video: { width: 900, height: 900 }
             })
             .then(stream => {
                 let video = videoRef.current;
@@ -116,6 +115,7 @@ function CameraComponent({ deletedIngredients }) {
             .catch(err => {
                 console.error(err);
             })
+        setHasPhoto(true);
     }
 
     // shows the video on the screen if there is a change
@@ -135,7 +135,7 @@ function CameraComponent({ deletedIngredients }) {
         photo.height = heightPhoto;
 
         let ctx = photo.getContext('2d');
-        ctx.drawImage(video, 0, 0, widthPhoto, heightPhoto); // displays current status of camera screen
+        ctx.drawImage(video, 0, 0, videoRef.current.width, videoRef.current.height); // displays current status of camera screen
 
         setHasPhoto(true);
     }
@@ -146,7 +146,6 @@ function CameraComponent({ deletedIngredients }) {
         let ctx = photo.getContext('2d');
 
         ctx.clearRect(0, 0, photo.width, photo.height);
-        setHasPhoto(false);
     }
 
     // saves the photo s3 bucket 
@@ -200,59 +199,57 @@ function CameraComponent({ deletedIngredients }) {
                 <div className="camera">
                     <video ref={videoRef}></video>
                 </div>
+            </div>
 
-                <div className="flex flex-col">
-                {/* opens up the initial image  */}
-                    <div class="flex items-center justify-center">
-                        <button class="relative inline-flex items-center justify-center p-0.5 mt-5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white 
-                    focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800" onClick={takePhoto}>
+
+            <div className={"result " + (hasPhoto ? "hasPhoto" : "")}>
+                <div class="camera">
+                    <canvas ref={photoRef}></canvas>
+                </div>
+
+                <div className="grid grid-rows-3 gap-4 pt-20">
+                    <div>
+                        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white 
+                            focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800" onClick={closePhoto}>
+                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                Clear Screen
+                            </span>
+                        </button>
+                    </div>
+                    <div>
+                        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white
+                focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800" onClick={savePhoto}>
                             <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                 Take Photo
                             </span>
                         </button>
                     </div>
-                </div>
-            </div>
 
-            <div class="flex flex-col">
-
-                {/* if there is a photo show the photo on the screen  */}
-                <div className={"result " + (hasPhoto ? "hasPhoto" : "")}>
-                    <div class="flex items-center justify-center pl-80">
-                        <canvas ref={photoRef}></canvas>
-                    </div>
-                    <br />
-                    <div class="flex items-center justify-center pl-40">
-                        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white 
-                        focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800" onClick={closePhoto}>
-                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                Retake
-                            </span>
-                        </button>
-                    </div>
-
-
-                {/* saves the photo to the s3 bucket  */}
+                    <div>
+                        {/* pass the ingredients dictionary to the state of the ingredientlist page */}
+                <Link to={'/ingredientlist'} state={ingred}>
                     <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white
-                focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800" onClick={savePhoto}>
+                focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
                         <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                            Save Photo
+
+                            Next Page
                         </span>
                     </button>
-
-
-                {/* pass the ingredients dictionary to the state of the ingredientlist page */}
-                    <Link to={'/ingredientlist'} state={ingred}>
-                        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white
-                focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
-
-                            Next
-                        </button>
-                    </Link>
-
+                </Link>
+                    </div>
                 </div>
+
+
+
+
+
             </div>
         </div>
+
+
+
+
+
 
     );
 }
