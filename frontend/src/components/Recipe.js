@@ -12,6 +12,8 @@ import '../css/Recipe.css';
 export default function Recipe() {
     // this will be replaced with information from json 
     const { recipeName } = useParams();
+    
+    // will be used to get the link, ingredients and formatting (?) ask Dom 
     const location = useLocation();
     console.log("link: " + location.state.link);
     function handlePrint() {

@@ -10,13 +10,12 @@ import IngredientList from './components/IngredientList';
 import Recipe from './components/Recipe'; 
 function App() {
     
-
+    // this is where we specify our routes 
     return (
 
         <Routes>
         <Route exact path='/' element={<LandingPageComponent/>}/>
         <Route exact path='/ingredientupload' element={<IngredientUploadComponent/>}/>
-        {/* delete the line after this one and replace this with the ingredients list component to fix routing */}
         <Route exact path='/ingredientlist' element={<IngredientList/>}/>
         <Route exact path= '/recipes' element={<RecipeView/>}/>
         <Route exact path= '/recipeInformation/:recipeName' element={<Recipe/>}/>

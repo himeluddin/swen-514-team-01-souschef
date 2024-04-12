@@ -1,24 +1,39 @@
 import React, { Component, useRef } from 'react';
 import CameraComponent from './CameraComponent'
 import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
-import Webcam from 'react-webcam';
-import LandingPageComponent, { generateSessionKey } from './LandingPageComponent';
 import NavBar from './NavBar';
-const IngredientUploadComponent = () => {
-    const webRef = useRef(null); 
-    let img = null; 
-    const showImage=()=> {
-        img =webRef.current.getScreenshot();
-    };
+import { useLocation } from "react-router-dom";
+import { getDeletedObjects } from "./s3"; 
 
-    //console.log('sessionKey:' + sessionStorage.getItem("sessionKey"));
-    // backLink="/ingredientlist"
+
+const IngredientUploadComponent = () => {
+    
+    /** 
+     * retrieves most updated list of deleted ingredients from the s3 file 
+    */
+    var deletedIngredients = getDeletedObjects(); 
+
+    // checks the value of the retrieved list of deletedIngredients
+    for(let k= 0; k < deletedIngredients.length; k++){
+        console.log("deleted object from the ingred upload comp method: " +  deletedIngredients[k]); 
+    }
+    
     return (
         <div>
-            <NavBar pageTitle="Ingredient Upload" showBackButton={true}/> 
-            <div class="flex flex-col justify-center items-center ps-px-12 pe-px-12">
-                <h3 className="font-InterExtraLight text-lg text-red-300" >Images should be non-blurry and display one ingredient</h3>
-                <CameraComponent/>
+            <NavBar pageTitle="Ingredient Upload"/> 
+            <div class="flex flex-col justify-center items-center pe-px-12">\
+
+                {/* instructions for the user */}
+                <h3 className="font-InterExtraLight text-lg text-red-300" >
+                    Images should be non-blurry and display one ingredient.
+                </h3>
+                <br/>
+                <h3 className="font-InterExtraLight text-lg text-red-300" >
+                Hold still and wait 2 seconds between each picture taken before hitting next!
+                </h3>
+
+                {/* pass in the deletedIngredients as a prop */}
+                <CameraComponent deletedIngredients={deletedIngredients}/>
             </div>
         </div>
     );
