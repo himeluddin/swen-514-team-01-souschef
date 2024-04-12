@@ -20,6 +20,7 @@ function parsedIngredients(ingredientList) {
 }
 
 export async function fetchRecipes(ingredientList) {
+
     try {
         const apiUrlWithIngredients = parsedIngredients(ingredientList);
 
