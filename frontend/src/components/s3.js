@@ -6,7 +6,7 @@ var bucketRegion = "us-east-1";
 const accessKeyId = "test"
 const secretAccessKey = "test"
 const BUCKET_NAME_POST = "post-souschef";
-const BUCKET_NAME_PRE = "pre-souschef"; 
+const BUCKET_NAME_PRE = "pre-souschef";
 const AWS = require('aws-sdk');
 var deletedObjects = [];
 
@@ -110,8 +110,8 @@ export async function deleteObject(imageName) {
     };
 
     console.log("img name of deleted obj from DeleteObj function: " + imageName);
-    deletedObjects.push(imageName); 
-    
+    deletedObjects.push(imageName);
+
     // Delete the object
     s3.deleteObject(params, function (err, data) {
         if (err) {
@@ -123,9 +123,39 @@ export async function deleteObject(imageName) {
 }
 
 /* gets the list of deletedObjects from here */
-export function getDeletedObjects(){
-    for(let k= 0; k < deletedObjects.length; k++){
-        console.log("deleted object from the getDeletedObjects method: " +  deletedObjects); 
+export function getDeletedObjects() {
+    for (let k = 0; k < deletedObjects.length; k++) {
+        console.log("deleted object from the getDeletedObjects method: " + deletedObjects);
     }
     return deletedObjects; // return the objects that were deleted in a session 
+}
+
+
+
+// this function will find all the objects in the s3 bucket with the specified session key 
+// it will also clear the session key of the window with sessionStorage.setItem("sessionKey", 0)
+// it will also clear the recipeList session storage
+export async function endSession(sessionKey) {
+    try {
+        // List objects with the prefix
+        const data = await s3.listObjectsV2({ Bucket: BUCKET_NAME_POST, Prefix: sessionKey }).promise();
+
+        // Delete each object
+        const deletePromises = data.Contents.map(async (obj) => {
+            await s3.deleteObject({ Bucket: BUCKET_NAME_POST, Key: obj.Key }).promise();
+            console.log(`Deleted: ${obj.Key}`);
+        });
+
+        // Wait for all delete operations to complete
+        await Promise.all(deletePromises);
+        
+        
+        sessionStorage.setItem("recipeList", null);
+
+        console.log('All objects with prefix ' + sessionKey +  ' deleted successfully.');
+        console.log("session storage of session key after this : " + sessionStorage.getItem("sessionKey")); 
+        console.log("session storage of recipe list after deleting: " + sessionStorage.getItem("recipeList"));
+    } catch (err) {
+        console.error('Error deleting objects:', err);
+    }
 }

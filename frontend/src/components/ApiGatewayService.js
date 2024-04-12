@@ -5,6 +5,7 @@ function parsedIngredients(ingredientList) {
     for (let i = 0; i < ingredientList.length; i++) {
         let concatIng;
         const ingredientlabel = ingredientList[i].label.toLowerCase(); 
+        console.log("ingred label in api gateway: " + ingredientlabel); 
         if (i === ingredientList.length - 1) {
             
             concatIng = "ingredients=" + encodeURIComponent(ingredientlabel);
