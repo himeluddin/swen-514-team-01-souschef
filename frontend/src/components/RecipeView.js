@@ -8,18 +8,11 @@ import { fetchRecipes } from './ApiGatewayService';
 import { useLocation } from "react-router-dom";
 
 
-
-
 function RecipeView() {
     // you still need to do element.label to get the actual label ... otherwise the sorting stuff dont work to get the non copies 
-    const location = useLocation(); 
-    const ingredLabels = location.state; 
-    
-    for(let k = 0; k < ingredLabels.length; k++){
-        console.log("ingred labels recipie view: " + ingredLabels[k].img_key);
-    }
-    
+    const location = useLocation();  
 
+    const [ingredLabels, setIngredLabels] = useState(location.state);
     const [recipes, setRecipes] = useState([]);
     const [numRecipes, setNumRecipes] = useState(3);
 
@@ -33,7 +26,9 @@ function RecipeView() {
                     // Extract the 'data' property from the response
 
                     setRecipes(recipeData.data);
-                    localStorage.setItem("recipeList",JSON.stringify(recipeData.data));
+                    console.log(recipes);
+                    console.log(recipeData.data);
+                    sessionStorage.setItem("recipeList",JSON.stringify(recipeData.data)); 
                 } else {
                     throw new Error('Invalid recipe data format');
                 }
@@ -41,7 +36,15 @@ function RecipeView() {
                 console.error('Error fetching recipes:', error);
             }
         }
-        fetchData();
+
+        // if the session storage doesnt have anything in it yet then do the fetch data 
+        if (sessionStorage.getItem("recipeList") == null){
+            fetchData(); 
+        // if the session storage has already been called it will say that the session storage is not null, therefore, grab that data 
+        } else if (sessionStorage.getItem("recipeList") != null){
+            var jsonToArr = JSON.parse(sessionStorage.getItem("recipeList")); 
+            setRecipes(jsonToArr); 
+        }
     }, []);
 
     const generateRecipes = () => {
