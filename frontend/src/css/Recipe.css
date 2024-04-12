@@ -1,0 +1,9 @@
+.sticky-button {
+    position: fixed;
+    bottom: 20px;
+    /* Adjust this value to change the distance from the bottom */
+    right: 20px;
+    /* Adjust this value to change the distance from the right */
+    z-index: 999;
+    /* Optional: adjust the z-index if needed */
+}
