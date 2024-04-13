@@ -1,4 +1,4 @@
-import React, { Component, useRef } from 'react';
+import React, { Component, useRef, useState } from 'react';
 import CameraComponent from './CameraComponent'
 import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
 import NavBar from './NavBar';
@@ -7,7 +7,9 @@ import { getDeletedObjects } from "./s3";
 
 
 const IngredientUploadComponent = () => {
-    
+    const location = useLocation();
+    const [ingredients, setIngredients] = useState(location.state !== null ? location.state : {});
+
     /** 
      * retrieves most updated list of deleted ingredients from the s3 file 
     */
@@ -33,7 +35,7 @@ const IngredientUploadComponent = () => {
                 </h3>
 
                 {/* pass in the deletedIngredients as a prop */}
-                <CameraComponent deletedIngredients={deletedIngredients}/>
+                <CameraComponent deletedIngredients={deletedIngredients} ingredients={ingredients} setIngredients={setIngredients}/>
             </div>
         </div>
     );
