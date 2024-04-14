@@ -1,5 +1,5 @@
 //const apiID = process.env.GATEWAY_ID; 
-const apiUrl = process.env.API_URL  +  '/Recipe?'; 
+const apiUrl = process.env.REACT_APP_API_URL  +  '/Recipe?'; 
 
 // Parses the URL to be sent to the API by adding query strings to it
 function parsedIngredients(ingredientList) {
