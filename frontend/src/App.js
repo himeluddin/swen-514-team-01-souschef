@@ -1,11 +1,11 @@
 import './css/App.css';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import IngredientUploadComponent from './components/IngredientUploadComponent';
+import IngredientUploadComponent from './components/upload/IngredientUploadComponent';
 import LandingPageComponent from './components/LandingPageComponent';
-import RecipeView from "./components/RecipeView";
-import IngredientList from './components/IngredientList';
-import Recipe from './components/Recipe';
+import RecipeView from "./components/recipes/RecipeList";
+import IngredientList from './components/ingredient-list/IngredientList';
+import Recipe from './components/recipes/Recipe';
 
 function App() {
     return (

@@ -1,7 +1,7 @@
 import React from "react";
-import NavBar from "./NavBar";
+import NavBar from "../NavBar";
 import { useLocation, useParams } from "react-router-dom";
-import '../css/Recipe.css'; 
+import '../../css/Recipe.css'; 
 
 // this shows on the recipeInformation page
 //displays all the possible recipes

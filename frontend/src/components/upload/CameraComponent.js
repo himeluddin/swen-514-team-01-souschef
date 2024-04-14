@@ -1,7 +1,7 @@
-import '../css/CameraComponent.css';
+import '../../css/CameraComponent.css';
 import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { generateURL, getIngredients } from './s3';
+import { generateURL, getIngredients } from '../aws/s3';
 
 function CameraComponent({ ingredients, setIngredients }) {
     // stuff for the camera component image stuff how it shows up on the screen 

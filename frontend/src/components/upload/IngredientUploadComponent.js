@@ -1,8 +1,8 @@
 import CameraComponent from './CameraComponent'
-import NavBar from './NavBar';
+import NavBar from '../NavBar';
 import React, { useState } from 'react';
 import { useLocation } from "react-router-dom";
-import { getDeletedObjects } from "./s3"; 
+import { getDeletedObjects } from "../aws/s3"; 
 
 
 const IngredientUploadComponent = () => {
@@ -22,7 +22,7 @@ const IngredientUploadComponent = () => {
     return (
         <div>
             <NavBar pageTitle="Ingredient Upload"/> 
-            <div class="flex flex-col justify-center items-center pe-px-12">\
+            <div className="flex flex-col justify-center items-center pe-px-12">\
 
                 {/* instructions for the user */}
                 <h3 className="font-InterExtraLight text-lg text-red-300" >

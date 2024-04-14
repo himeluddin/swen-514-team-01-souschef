@@ -1,6 +1,6 @@
-import close from '../imgs/close.png'
+import close from '../../imgs/close.png'
 import React, { useImperativeHandle, useState, forwardRef } from "react";
-import { updateLabel } from './s3';
+import { updateLabel } from '../aws/s3';
 
 const EditModal = forwardRef((props, ref) => {
     const [showModal, setShowModal] = useState(false);
@@ -42,14 +42,14 @@ const EditModal = forwardRef((props, ref) => {
                             {/* shows the current photo of ingredient youre editing */}
                             <div className="relative p-6 flex-auto">
                                 <form className="bg-gray-200 shadow-md rounded px-8 pt-6 pb-8 w-full">
-                                    <div class="p-3 px-10 max-w-sm w-full lg:max-w-full lg:flex">
-                                        <div class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-tl rounded-bl text-center overflow-hidden" title="Woman holding a mug">
+                                    <div className="p-3 px-10 max-w-sm w-full lg:max-w-full lg:flex">
+                                        <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-tl rounded-bl text-center overflow-hidden" title="Woman holding a mug">
                                             <img src={currentPhoto} alt="help"></img>
                                         </div>
                                     </div>
-                                    <div class="flex flex-row">
+                                    <div className="flex flex-row">
                                         {/* where we are getting the user input from  */}
-                                        <input id="newLabel" placeholder="Edit..." class="flex flex-col shadow appearance-none border rounded w-full py-2 px-4 text-black" />
+                                        <input id="newLabel" placeholder="Edit..." className="flex flex-col shadow appearance-none border rounded w-full py-2 px-4 text-black" />
                                     </div>
                                 </form>
                             </div>
@@ -59,8 +59,8 @@ const EditModal = forwardRef((props, ref) => {
                                     Close
                                 </button>
                                 <button onClick={() => updateIngredientLabel(document.getElementById("newLabel").value)} 
-                                    class="static inline-flex p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                                    <span class="static px-6 py-3 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                    className="static inline-flex p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                                    <span className="static px-6 py-3 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                         Submit
                                     </span>
                                 </button>

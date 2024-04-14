@@ -1,10 +1,10 @@
-import IngredientListContainer from "./IngredientListContainer";
-import NavBar from "./NavBar";
+import IngredientCard from "./IngredientCard";
+import NavBar from "../NavBar";
 import AddButton from "./AddButton";
 import GenerateRecipeButton from "./GenerateRecipeButton";
 import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
-import { deleteObject } from './s3';
+import { deleteObject } from '../aws/s3';
 
 function IngredientList() {
     // gets the ingredients passed in through the state (ingred is passed in as a dictionary)
@@ -24,21 +24,24 @@ function IngredientList() {
         setIngredients(updatedIngredients);
     }
 
-    console.log(ingredients);
-    
+    const formattedIngredients = Object.values(ingredients).map((ingredient) => {
+        return (
+            <IngredientCard 
+                key={ingredient.id}
+                ingredient={ingredient} 
+                editLabel={(updatedIngredient, newLabel) => editLabel(updatedIngredient, newLabel)} 
+                removeCard={(removedingredient) => removeCard(removedingredient)}
+            />
+        )
+    });
+
     return (
         <div>
             <NavBar pageTitle={"Ingredient List"} />
-            {/* passes in the formatted ingred as an array*/}
-            <IngredientListContainer 
-                ingredients={ingredients} 
-                editLabel={(updatedIngredient, newLabel) => editLabel(updatedIngredient, newLabel)} 
-                removeCard={(removedIngredient) => removeCard(removedIngredient)}
-            />
+            {formattedIngredients}
             <Link to={'/ingredientupload'} state={ingredients}>
                 <AddButton />
             </Link>
-            {/* if the user deletes smth and then hits generate recipe how do we get the most updated formatted ingred */}
             <Link to={'/recipes'} state={ingredients}>
                 <GenerateRecipeButton />
             </Link>
