@@ -5,27 +5,30 @@ import React, { useImperativeHandle, useState, forwardRef } from "react";
 import close from '../imgs/close.png'
 import {updateLabel} from './s3';
 
-/*
-calls the updateLabel method from s3.js in order to update the label on the S3
-needs the photo url (which is put in when props are called)
-*/
-function updateIngredientLabel(photo, updatedLabel) {
-
-    // print statements to understand what is being retrieved  
-    console.log("photo url edit modal: " + photo); 
-    console.log("session id: " + sessionStorage.getItem("sessionKey"))
-
-    // splits up the url and then retrieves the image name (e.g. sessionkey_01.jpg)
-    var img_key = photo.split("/")[3]; // the third one should be the back end of key 
-    
-    // print statement to check if it is getting the right image 
-    console.log(img_key);
-
-    // takes user input and calls updateLabel from s3.js to update the label
-    updateLabel(img_key, updatedLabel); 
-}
 const EditModal = forwardRef((props, ref) => {
     const [showModal, setShowModal] = useState(false);
+
+    /*
+    calls the updateLabel method from s3.js in order to update the label on the S3
+    needs the photo url (which is put in when props are called)
+    */
+    const updateIngredientLabel = (photo, updatedLabel) => {
+
+        // print statements to understand what is being retrieved  
+        console.log("photo url edit modal: " + photo); 
+        console.log("session id: " + sessionStorage.getItem("sessionKey"))
+
+        // splits up the url and then retrieves the image name (e.g. sessionkey_01.jpg)
+        var img_key = photo.split("/")[3]; // the third one should be the back end of key 
+        
+        // print statement to check if it is getting the right image 
+        console.log(img_key);
+
+        props.editLabel(props.ingredient, updatedLabel)
+
+        // takes user input and calls updateLabel from s3.js to update the label
+        updateLabel(img_key, updatedLabel); 
+    }
 
     useImperativeHandle(ref, () => ({
         openModal() {
@@ -33,7 +36,7 @@ const EditModal = forwardRef((props, ref) => {
         }
     }))
 
-    var currentPhoto = props.image_url; // gets the photo from the passed in properties
+    var currentPhoto = props.ingredient.image_url; // gets the photo from the passed in properties
     return (
         <>
             {showModal ? (

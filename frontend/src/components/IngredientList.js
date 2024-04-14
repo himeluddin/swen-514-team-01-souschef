@@ -33,6 +33,12 @@ function IngredientList() {
     const location = useLocation();
     const [ingredients, setIngredients] = useState(location.state);
 
+    const editLabel = (updatedIngredient, newLabel) => {
+        const updatedIngredients = {...ingredients};
+        updatedIngredients[updatedIngredient.img_key].label = newLabel;
+        setIngredients(updatedIngredients);
+    }
+
     const removeCard = (removedIngredient) => {
         const updatedIngredients = {...ingredients};
         delete updatedIngredients[removedIngredient.img_key];
@@ -46,7 +52,11 @@ function IngredientList() {
         <div>
             <NavBar pageTitle={"Ingredient List"} />
             {/* passes in the formatted ingred as an array*/}
-            <IngredientListContainer ingredients={ingredients} removeCard={(removedIngredient) => removeCard(removedIngredient)}/>
+            <IngredientListContainer 
+                ingredients={ingredients} 
+                editLabel={(updatedIngredient, newLabel) => editLabel(updatedIngredient, newLabel)} 
+                removeCard={(removedIngredient) => removeCard(removedIngredient)}
+            />
             <Link to={'/ingredientupload'} state={ingredients}>
                 <AddButton />
             </Link>

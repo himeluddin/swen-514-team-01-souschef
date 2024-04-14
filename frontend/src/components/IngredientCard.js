@@ -3,7 +3,7 @@ import '../css/CameraComponent.css'
 import { useRef, useState } from 'react';
 import { EditModal } from './EditModal';
 
-function IngredientCard({ ingredient, removeCard }) {
+function IngredientCard({ ingredient, editLabel, removeCard }) {
     const editModalRef = useRef();
 
     const onCloseClick = () => {
@@ -32,7 +32,7 @@ function IngredientCard({ ingredient, removeCard }) {
                                 Edit
                             </span>
                         </button>
-                        <EditModal {...ingredient} ref={editModalRef}/>
+                        <EditModal ingredient={ingredient} editLabel={editLabel} ref={editModalRef}/>
                     </div>
                 </div>
             </div>
