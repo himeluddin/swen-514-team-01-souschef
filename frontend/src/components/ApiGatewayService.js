@@ -2,12 +2,11 @@ const apiUrl = 'https://wcoe9gws5i.execute-api.us-east-1.amazonaws.com/deployedA
 
 function parsedIngredients(ingredientList) {
     let processedUrl = apiUrl; // Initialize processedUrl variable
-    for (let i = 0; i < ingredientList.length; i++) {
+    for (let [img_url, ingredient] of Object.entries(ingredientList)) {
         let concatIng;
-        const ingredientlabel = ingredientList[i].label.toLowerCase(); 
+        const ingredientlabel = ingredient.label.toLowerCase(); 
         console.log("ingred label in api gateway: " + ingredientlabel); 
-        if (i === ingredientList.length - 1) {
-            
+        if (ingredient == ingredientList[Object.keys(ingredientList)[Object.keys(ingredientList).length - 1]]) {
             concatIng = "ingredients=" + encodeURIComponent(ingredientlabel);
         } else {
             concatIng = "ingredients=" + encodeURIComponent(ingredientlabel) + "&";
