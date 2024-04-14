@@ -5,7 +5,7 @@ import IngredientUploadComponent from './components/upload/IngredientUploadCompo
 import LandingPageComponent from './components/LandingPageComponent';
 import RecipeView from "./components/recipes/RecipeList";
 import IngredientList from './components/ingredient-list/IngredientList';
-import Recipe from './components/recipes/Recipe';
+import Recipe from './components/recipes/RecipeInformation';
 
 function App() {
     return (

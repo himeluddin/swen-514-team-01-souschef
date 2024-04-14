@@ -11,4 +11,5 @@ function GenerateRecipeButton() {
         </div> 
     );
 }
+
 export default GenerateRecipeButton; 

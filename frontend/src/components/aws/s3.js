@@ -8,7 +8,7 @@ const secretAccessKey = "test"
 const BUCKET_NAME_POST = "post-souschef";
 const BUCKET_NAME_PRE = "pre-souschef";
 const AWS = require('aws-sdk');
-var deletedObjects = [];
+let deletedObjects = [];
 
 // s3 instance to access the s3 buckets
 const s3 = new AWS.S3({
@@ -19,22 +19,6 @@ const s3 = new AWS.S3({
     },
     signatureVersion: 'v4'
 });
-
-// not sure what this method is for but I know that Himel made this and it may be used somewhere
-export async function getContentWithPrefix(bucketName, prefix) {
-    const params = {
-        Bucket: bucketName,
-        Prefix: prefix // Specify the prefix to filter by
-    };
-
-    try {
-        const data = await s3.listObjectsV2(params).promise();
-        return data.Contents; // Return an array of objects that match the prefix
-    } catch (error) {
-        console.error('Error getting content from S3:', error);
-        throw error;
-    }
-}
 
 // generates the url to make a PUT request to s3 bucket 
 export async function generateURL(keyName) {
@@ -71,8 +55,6 @@ export async function getIngredients(prefix) {
         ingredientsDict[object.Key] = { label: tagLabel };
     }
 
-    console.log("length of ingred dict s3: " + Object.keys(ingredientsDict).length);
-
     return ingredientsDict;
 }
 
@@ -94,7 +76,7 @@ export async function updateLabel(imageName, updatedLabel) {
 
     s3.putObjectTagging(params, function (err, data) {
         if (err) {
-            console.log("Error", err);
+            console.error("Error", err);
         } else {
             console.log("Object tags updated successfully", data);
         }
@@ -109,28 +91,17 @@ export async function deleteObject(imageName) {
         Key: imageName
     };
 
-    console.log("img name of deleted obj from DeleteObj function: " + imageName);
     deletedObjects.push(imageName);
 
     // Delete the object
     s3.deleteObject(params, function (err, data) {
         if (err) {
-            console.log("Error deleting object:", err);
+            console.error("Error deleting object:", err);
         } else {
             console.log("Object deleted successfully:", data);
         }
     });
 }
-
-/* gets the list of deletedObjects from here */
-export function getDeletedObjects() {
-    for (let k = 0; k < deletedObjects.length; k++) {
-        console.log("deleted object from the getDeletedObjects method: " + deletedObjects);
-    }
-    return deletedObjects; // return the objects that were deleted in a session 
-}
-
-
 
 // this function will find all the objects in the s3 bucket with the specified session key 
 // it will also clear the session key of the window with sessionStorage.setItem("sessionKey", 0)
@@ -143,18 +114,12 @@ export async function endSession(sessionKey) {
         // Delete each object
         const deletePromises = data.Contents.map(async (obj) => {
             await s3.deleteObject({ Bucket: BUCKET_NAME_POST, Key: obj.Key }).promise();
-            console.log(`Deleted: ${obj.Key}`);
         });
 
         // Wait for all delete operations to complete
         await Promise.all(deletePromises);
         
-        
         sessionStorage.setItem("recipeList", null);
-
-        console.log('All objects with prefix ' + sessionKey +  ' deleted successfully.');
-        console.log("session storage of session key after this : " + sessionStorage.getItem("sessionKey")); 
-        console.log("session storage of recipe list after deleting: " + sessionStorage.getItem("recipeList"));
     } catch (err) {
         console.error('Error deleting objects:', err);
     }

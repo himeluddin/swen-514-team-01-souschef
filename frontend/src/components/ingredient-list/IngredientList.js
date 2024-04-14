@@ -4,7 +4,7 @@ import AddButton from "./AddButton";
 import GenerateRecipeButton from "./GenerateRecipeButton";
 import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
-import { deleteObject } from '../aws/s3';
+import { deleteObject, updateLabel } from '../aws/s3';
 
 function IngredientList() {
     // gets the ingredients passed in through the state (ingred is passed in as a dictionary)
@@ -12,7 +12,10 @@ function IngredientList() {
     const [ingredients, setIngredients] = useState(location.state);
 
     const editLabel = (updatedIngredient, newLabel) => {
+        const img_key = updatedIngredient.img_url.split("/")[3]; // the third one should be the back end of key
         const updatedIngredients = {...ingredients};
+
+        updateLabel(img_key, newLabel);
         updatedIngredients[updatedIngredient.img_key].label = newLabel;
         setIngredients(updatedIngredients);
     }

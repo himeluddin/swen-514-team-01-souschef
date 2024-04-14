@@ -49,7 +49,7 @@ const EditModal = forwardRef((props, ref) => {
                                     </div>
                                     <div className="flex flex-row">
                                         {/* where we are getting the user input from  */}
-                                        <input id="newLabel" placeholder="Edit..." className="flex flex-col shadow appearance-none border rounded w-full py-2 px-4 text-black" />
+                                        <input id="newLabel" placeholder="Edit..." className="flex flex-col shadow appearance-none border rounded w-full py-2 px-4 text-black"/>
                                     </div>
                                 </form>
                             </div>
