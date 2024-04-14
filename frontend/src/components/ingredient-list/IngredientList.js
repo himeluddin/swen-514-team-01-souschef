@@ -12,7 +12,8 @@ function IngredientList() {
     const [ingredients, setIngredients] = useState(location.state);
 
     const editLabel = (updatedIngredient, newLabel) => {
-        const img_key = updatedIngredient.img_url.split("/")[3]; // the third one should be the back end of key
+        console.log(updatedIngredient);
+        const img_key = updatedIngredient.image_url.split("/")[3]; // the third one should be the back end of key
         const updatedIngredients = {...ingredients};
 
         updateLabel(img_key, newLabel);
