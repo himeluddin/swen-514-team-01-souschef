@@ -3,7 +3,7 @@ This is where the recipe cards will be shown
 */
 import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
-import RecipeCard from "../util/RecipeCard";
+import RecipeCard from "./RecipeCard";
 import { fetchRecipes } from './ApiGatewayService';
 import { useLocation } from "react-router-dom";
 
@@ -11,8 +11,8 @@ import { useLocation } from "react-router-dom";
 function RecipeView() {
     // you still need to do element.label to get the actual label ... otherwise the sorting stuff dont work to get the non copies 
     const location = useLocation();  
+    const ingredients = location.state;
 
-    const [ingredLabels, setIngredLabels] = useState(location.state);
     const [recipes, setRecipes] = useState([]);
     const [numRecipes, setNumRecipes] = useState(3);
 
@@ -20,7 +20,7 @@ function RecipeView() {
         async function fetchData() {
             try {
                 // Fetch recipe data directly within the component
-                const recipeData = await fetchRecipes(ingredLabels);
+                const recipeData = await fetchRecipes(ingredients);
                 // Check if recipeData is not null and has the expected structure
                 if (recipeData && recipeData.data) {
                     // Extract the 'data' property from the response
@@ -45,7 +45,7 @@ function RecipeView() {
             var jsonToArr = JSON.parse(sessionStorage.getItem("recipeList")); 
             setRecipes(jsonToArr); 
         }
-    }, []);
+    }, [ingredients, recipes]);
 
     const generateRecipes = () => {
         if (numRecipes < 12) {

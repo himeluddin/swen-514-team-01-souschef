@@ -1,33 +1,22 @@
-/**
- * Modal that pops up when user wants to edit fields for their food items 
- */
-import React, { useImperativeHandle, useState, forwardRef } from "react";
 import close from '../imgs/close.png'
-import {updateLabel} from './s3';
+import React, { useImperativeHandle, useState, forwardRef } from "react";
+import { updateLabel } from './s3';
 
 const EditModal = forwardRef((props, ref) => {
     const [showModal, setShowModal] = useState(false);
+    const currentPhoto = props.ingredient.image_url; // gets the photo from the passed in properties
 
     /*
     calls the updateLabel method from s3.js in order to update the label on the S3
     needs the photo url (which is put in when props are called)
     */
-    const updateIngredientLabel = (photo, updatedLabel) => {
-
-        // print statements to understand what is being retrieved  
-        console.log("photo url edit modal: " + photo); 
-        console.log("session id: " + sessionStorage.getItem("sessionKey"))
-
-        // splits up the url and then retrieves the image name (e.g. sessionkey_01.jpg)
-        var img_key = photo.split("/")[3]; // the third one should be the back end of key 
-        
-        // print statement to check if it is getting the right image 
-        console.log(img_key);
-
-        props.editLabel(props.ingredient, updatedLabel)
+    const updateIngredientLabel = (updatedLabel) => {
+        const img_key = currentPhoto.split("/")[3]; // the third one should be the back end of key
 
         // takes user input and calls updateLabel from s3.js to update the label
-        updateLabel(img_key, updatedLabel); 
+        updateLabel(img_key, updatedLabel);
+        props.editLabel(props.ingredient, updatedLabel);
+        setShowModal(false);
     }
 
     useImperativeHandle(ref, () => ({
@@ -36,7 +25,6 @@ const EditModal = forwardRef((props, ref) => {
         }
     }))
 
-    var currentPhoto = props.ingredient.image_url; // gets the photo from the passed in properties
     return (
         <>
             {showModal ? (
@@ -61,7 +49,7 @@ const EditModal = forwardRef((props, ref) => {
                                     </div>
                                     <div class="flex flex-row">
                                         {/* where we are getting the user input from  */}
-                                        <input id="newLabel"placeholder="Edit..." class="flex flex-col shadow appearance-none border rounded w-full py-2 px-4 text-black" />
+                                        <input id="newLabel" placeholder="Edit..." class="flex flex-col shadow appearance-none border rounded w-full py-2 px-4 text-black" />
                                     </div>
                                 </form>
                             </div>
@@ -70,13 +58,8 @@ const EditModal = forwardRef((props, ref) => {
                                 <button onClick={() => setShowModal(false)} type="button" className="static text-gray-400 border-solid border-gray-400 rounded px-6 py-3 text-sm outline-none focus:outline-none mr-1 ease-in duration-75 hover:bg-gray-400 hover:text-white">
                                     Close
                                 </button>
-                                <button onClick={() => 
-                                    { 
-                                        // pulls the user input and then after it calls updateIngredientLabel it will close the pop up
-                                        updateIngredientLabel(currentPhoto, document.getElementById("newLabel").value);
-                                        setShowModal(false); 
-                                        
-                                    }} class="static inline-flex p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                                <button onClick={() => updateIngredientLabel(document.getElementById("newLabel").value)} 
+                                    class="static inline-flex p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
                                     <span class="static px-6 py-3 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                         Submit
                                     </span>

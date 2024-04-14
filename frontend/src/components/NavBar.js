@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { endSession } from "./s3";
+
 function NavBar({ pageTitle, showBackButton = false, showCloseButton = false, backLink = '' }) {
     var back = "<";
     var close = "x";

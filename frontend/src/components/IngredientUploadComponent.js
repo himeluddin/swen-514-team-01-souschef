@@ -1,7 +1,6 @@
-import React, { Component, useRef, useState } from 'react';
 import CameraComponent from './CameraComponent'
-import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
 import NavBar from './NavBar';
+import React, { useState } from 'react';
 import { useLocation } from "react-router-dom";
 import { getDeletedObjects } from "./s3"; 
 

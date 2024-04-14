@@ -1,9 +1,6 @@
-import React , { useRef } from "react";
+import React from "react";
 import NavBar from "./NavBar";
 import { useLocation, useParams } from "react-router-dom";
-import ReactDOMServer from "react-dom/server";
-import { useReactToPrint } from "react-to-print";
-import html2canvas from "html2canvas";
 import '../css/Recipe.css'; 
 
 // this shows on the recipeInformation page

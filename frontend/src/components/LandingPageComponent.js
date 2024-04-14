@@ -1,6 +1,6 @@
 import logo from '../imgs/logo_transparent.png';
-import React, {Component} from 'react';
-import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 /* generates a sessionkey for a users current session */
 export function generateSessionKey() {
@@ -16,7 +16,7 @@ const LandingPageComponent = () => {
         <div class="pl-4 pr-4">
         <div class="flex flex-col justify-center items-center">
             <div class="flex items-center justify-center">
-                <img  src={logo}></img>
+                <img src={logo} alt="SousChef Logo"></img>
             </div>
         
             <h3 className="font-InterExtraLight text-5xl">Welcome to SousChef</h3>
