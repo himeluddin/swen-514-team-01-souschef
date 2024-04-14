@@ -5,8 +5,8 @@
 var bucketRegion = "us-east-1";
 const accessKeyId = process.env.ACCESS_KEY; 
 const secretAccessKey = process.env.SECRET_ACCESS_KEY;
-const BUCKET_NAME_POST = "post-souschef";
-const BUCKET_NAME_PRE = "pre-souschef";
+const BUCKET_NAME_POST = "postsouschef";
+const BUCKET_NAME_PRE = "presouschef";
 const AWS = require('aws-sdk');
 let deletedObjects = [];
 

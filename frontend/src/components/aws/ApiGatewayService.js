@@ -1,4 +1,5 @@
-const apiUrl = 'https://hz2o6fp7a3.execute-api.us-east-1.amazonaws.com/RecipeRequest/Recipes?';
+//const apiID = process.env.GATEWAY_ID; 
+const apiUrl = process.env.API_URL  +  '/Recipe?'; 
 
 // Parses the URL to be sent to the API by adding query strings to it
 function parsedIngredients(ingredientList) {
@@ -11,6 +12,7 @@ function parsedIngredients(ingredientList) {
             : "ingredients=" + encodeURIComponent(ingredientlabel) + "&";
     }
     
+    console.log(processedUrl);
     return processedUrl;
 }
 
