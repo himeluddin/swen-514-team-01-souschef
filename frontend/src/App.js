@@ -1,4 +1,4 @@
-import './css/App.css';
+import './css/App.css'; 
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import IngredientUploadComponent from './components/upload/IngredientUploadComponent';
