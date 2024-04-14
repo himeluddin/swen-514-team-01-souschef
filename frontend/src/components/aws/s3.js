@@ -22,7 +22,6 @@ const s3 = new AWS.S3({
 
 // generates the url to make a PUT request to s3 bucket 
 export async function generateURL(keyName) {
-
     const params = ({
         Bucket: BUCKET_NAME_PRE,
         Key: keyName,
@@ -40,7 +39,6 @@ export async function getIngredients(prefix) {
     };
 
     const data = await s3.listObjectsV2(params).promise();
-
     const ingredientsDict = {};
 
     for (const object of data.Contents) {

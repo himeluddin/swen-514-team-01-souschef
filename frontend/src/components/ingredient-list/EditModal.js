@@ -1,6 +1,5 @@
 import close from '../../imgs/close.png'
 import React, { useImperativeHandle, useState, forwardRef } from "react";
-import { updateLabel } from '../aws/s3';
 
 const EditModal = forwardRef((props, ref) => {
     const [showModal, setShowModal] = useState(false);
@@ -11,10 +10,6 @@ const EditModal = forwardRef((props, ref) => {
     needs the photo url (which is put in when props are called)
     */
     const updateIngredientLabel = (updatedLabel) => {
-        const img_key = currentPhoto.split("/")[3]; // the third one should be the back end of key
-
-        // takes user input and calls updateLabel from s3.js to update the label
-        updateLabel(img_key, updatedLabel);
         props.editLabel(props.ingredient, updatedLabel);
         setShowModal(false);
     }
