@@ -1,31 +1,18 @@
-/**
- * Modal that pops up when user wants to edit fields for their food items 
- */
+import close from '../../imgs/close.png'
 import React, { useImperativeHandle, useState, forwardRef } from "react";
-import close from '../imgs/close.png'
-import {updateLabel} from './s3';
 
-/*
-calls the updateLabel method from s3.js in order to update the label on the S3
-needs the photo url (which is put in when props are called)
-*/
-function updateIngredientLabel(photo, updatedLabel) {
-
-    // print statements to understand what is being retrieved  
-    console.log("photo url edit modal: " + photo); 
-    console.log("session id: " + sessionStorage.getItem("sessionKey"))
-
-    // splits up the url and then retrieves the image name (e.g. sessionkey_01.jpg)
-    var img_key = photo.split("/")[3]; // the third one should be the back end of key 
-    
-    // print statement to check if it is getting the right image 
-    console.log(img_key);
-
-    // takes user input and calls updateLabel from s3.js to update the label
-    updateLabel(img_key, updatedLabel); 
-}
 const EditModal = forwardRef((props, ref) => {
     const [showModal, setShowModal] = useState(false);
+    const currentPhoto = props.ingredient.image_url; // gets the photo from the passed in properties
+
+    /*
+    calls the updateLabel method from s3.js in order to update the label on the S3
+    needs the photo url (which is put in when props are called)
+    */
+    const updateIngredientLabel = (updatedLabel) => {
+        props.editLabel(props.ingredient, updatedLabel);
+        setShowModal(false);
+    }
 
     useImperativeHandle(ref, () => ({
         openModal() {
@@ -33,7 +20,6 @@ const EditModal = forwardRef((props, ref) => {
         }
     }))
 
-    var currentPhoto = props.image_url; // gets the photo from the passed in properties
     return (
         <>
             {showModal ? (
@@ -51,14 +37,14 @@ const EditModal = forwardRef((props, ref) => {
                             {/* shows the current photo of ingredient youre editing */}
                             <div className="relative p-6 flex-auto">
                                 <form className="bg-gray-200 shadow-md rounded px-8 pt-6 pb-8 w-full">
-                                    <div class="p-3 px-10 max-w-sm w-full lg:max-w-full lg:flex">
-                                        <div class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-tl rounded-bl text-center overflow-hidden" title="Woman holding a mug">
+                                    <div className="p-3 px-10 max-w-sm w-full lg:max-w-full lg:flex">
+                                        <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-tl rounded-bl text-center overflow-hidden" title="Woman holding a mug">
                                             <img src={currentPhoto} alt="help"></img>
                                         </div>
                                     </div>
-                                    <div class="flex flex-row">
+                                    <div className="flex flex-row">
                                         {/* where we are getting the user input from  */}
-                                        <input id="newLabel"placeholder="Edit..." class="flex flex-col shadow appearance-none border rounded w-full py-2 px-4 text-black" />
+                                        <input id="newLabel" placeholder="Edit..." className="flex flex-col shadow appearance-none border rounded w-full py-2 px-4 text-black"/>
                                     </div>
                                 </form>
                             </div>
@@ -67,14 +53,9 @@ const EditModal = forwardRef((props, ref) => {
                                 <button onClick={() => setShowModal(false)} type="button" className="static text-gray-400 border-solid border-gray-400 rounded px-6 py-3 text-sm outline-none focus:outline-none mr-1 ease-in duration-75 hover:bg-gray-400 hover:text-white">
                                     Close
                                 </button>
-                                <button onClick={() => 
-                                    { 
-                                        // pulls the user input and then after it calls updateIngredientLabel it will close the pop up
-                                        updateIngredientLabel(currentPhoto, document.getElementById("newLabel").value);
-                                        setShowModal(false); 
-                                        
-                                    }} class="static inline-flex p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                                    <span class="static px-6 py-3 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                <button onClick={() => updateIngredientLabel(document.getElementById("newLabel").value)} 
+                                    className="static inline-flex p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                                    <span className="static px-6 py-3 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                         Submit
                                     </span>
                                 </button>
