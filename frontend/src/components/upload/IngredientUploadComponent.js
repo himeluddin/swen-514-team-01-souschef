@@ -17,7 +17,7 @@ const IngredientUploadComponent = () => {
                 </h3>
                 <br/>
                 <h3 className="font-InterExtraLight text-lg text-red-300" >
-                    Hold still and wait 2 seconds between each picture taken before hitting next!
+                    Hold still and wait 5 seconds between each picture taken before hitting next!
                 </h3>
                 {/* pass in the deletedIngredients as a prop */}
                 <CameraComponent ingredients={ingredients} setIngredients={setIngredients}/>
