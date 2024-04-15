@@ -1,4 +1,4 @@
-/** 
+/**  
  * File containing bucket information and where credentials should be defined 
  * Also contains all AWS interfacing methods that we made
  */
