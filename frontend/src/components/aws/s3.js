@@ -3,9 +3,9 @@
  * Also contains all AWS interfacing methods that we made
  */
 var bucketRegion = "us-east-1";
-const accessKeyId = process.env.ACCESS_KEY; 
+const accessKeyId = process.env.REACT_APP_ACCESS_KEY; 
 console.log(accessKeyId);
-const secretAccessKey = process.env.SECRET_ACCESS_KEY;
+const secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY;
 console.log(secretAccessKey);
 const BUCKET_NAME_POST = "postsouschef";
 const BUCKET_NAME_PRE = "presouschef";
