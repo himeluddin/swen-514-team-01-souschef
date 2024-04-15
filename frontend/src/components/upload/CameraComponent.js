@@ -40,7 +40,7 @@ function CameraComponent({ ingredients, setIngredients }) {
             // adds ingredients pulled from s3 to a formatted list to be sent to ingredient list
             for (const key in value) {
                 if (value.hasOwnProperty(key)) { // if it has a value 
-                    const img_link = "https://post-souschef.s3.amazonaws.com/" + key;
+                    const img_link = "https://postsouschef.s3.amazonaws.com/" + key;
                     const jsonForm = {
                         id: idCount,
                         label: value[key].label,
