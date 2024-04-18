@@ -46,7 +46,7 @@ function RecipeView() {
 
     useEffect(() => {
         // if the session storage doesnt have anything in it yet then do the fetch data 
-        if (sessionStorage.getItem("recipeList") == null) {
+        if (sessionStorage.getItem("recipeList") == []) {
             fetchData(); 
         // if the session storage has already been called it will say that the session storage is not null, therefore, grab that data 
         } else {
