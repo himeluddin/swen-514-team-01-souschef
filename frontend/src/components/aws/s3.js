@@ -117,7 +117,7 @@ export async function endSession(sessionKey) {
         // Wait for all delete operations to complete
         await Promise.all(deletePromises);
         
-        sessionStorage.setItem("recipeList", null);
+        sessionStorage.setItem("recipeList", []);
     } catch (err) {
         console.error('Error deleting objects:', err);
     }
