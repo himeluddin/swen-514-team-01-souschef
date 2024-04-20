@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 const IngredientUploadComponent = () => {
     const location = useLocation();
     const [ingredients, setIngredients] = useState(location.state !== null ? location.state : {});
-    
+    sessionStorage.setItem("recipeList", []);
     return (
         <div>
             <NavBar pageTitle="Ingredient Upload"/> 
